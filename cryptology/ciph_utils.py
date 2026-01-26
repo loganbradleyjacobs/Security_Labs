@@ -7,11 +7,19 @@ class Symbol_Set:
     """
     A class that reconciles the differences in representation between a
     string of characters passed as an alphabet, and a tuple of a high and low
-    bound of ascii characters. All utility functions can be passed a Symbol_Set
-    object, initialized as either:
-    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. 
-    Or,
-    SymbolSet("ABCDEF "): includes A through F inclusive and space.
+    bound of ascii characters.
+    
+    All utility functions can be passed a Symbol_Set object, initialized as either:
+    
+    - SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive.
+    - SymbolSet("ABCDEF "): includes A through F inclusive and space.
+    
+    Attributes:
+        is_range (bool): Whether the symbol set is defined by a range
+        low (int): Lower ASCII bound (if is_range is True)
+        high (int): Upper ASCII bound (if is_range is True)
+        size (int): Number of characters in the symbol set
+        allowed (list[str]): List of allowed characters (if is_range is False)
     """
 
     def __init__(self, symbols: tuple[int, int] | str):
