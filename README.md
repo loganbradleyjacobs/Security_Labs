@@ -1,5 +1,5 @@
 # Security Labs
-CSC-348, Computer Security
+CSC-348, Computer Security.
 
 ## Cryptology
 - Cryptology and cryptanalysis utilities for Caesar and Vigenère ciphers.

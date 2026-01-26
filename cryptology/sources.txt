@@ -1,0 +1,9 @@
+Sources:
+https://www.geeksforgeeks.org/python/ternary-operator-in-python/
+ChatGPT: told me !r works in f-strings to give a readable representation to unreadable characters
+ChatGPT: told me how to reconcile different representations of 'symbols' (either tuple of ranges or string of valid characters)
+https://stackoverflow.com/questions/2217001/override-pythons-in-operator
+https://stackoverflow.com/questions/30556857/creating-a-static-class-with-no-instances
+ChatGPT: asked about cross-correlation intuitive meaning, and if it can be done for arbitrary sets
+ChatGPT: told me I probably shouldn't use @dataclass on Symbol_Set for this use case. Actually useful when it says I SHOULDNT do something.
+ChatGPT: explained why i need __init__.py for module creation, and why __main__.py is useful. also explained how i can create documentation using sphinx

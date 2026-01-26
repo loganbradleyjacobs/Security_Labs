@@ -1,14 +1,11 @@
 # Logan Jacobs
 # CSC-348 Computer Security
 # 1/24/26
-'''Sources:
-asked chatgpt about cross-correlation intuitive meaning, and if it can be done for arbitrary sets
-'''
 
 from cryptology.ciph_utils import Utils, Symbol_Set
 
 def caesar_cipher(message: str, shift: int, encrypt:bool, symbols: Symbol_Set = Symbol_Set((32, 126))) -> str:
-    '''Allows encrypting or decrypting an arbitrary message by a arbitrary shift'''
+    '''Allows encrypting or decrypting an arbitrary message by a arbitrary shift using the caesar cipher method'''
     return Utils.shift_message(message, shift, symbols) if encrypt else Utils.shift_message(message, -shift, symbols)
 
 def main():
