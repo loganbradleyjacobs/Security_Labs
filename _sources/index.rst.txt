@@ -7,7 +7,7 @@ Security Labs Documentation
 ========================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
    modules

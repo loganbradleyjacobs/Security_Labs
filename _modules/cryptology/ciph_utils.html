@@ -41,7 +41,38 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Cryptology Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Cryptology Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Symbol_Set"><code class="docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.__init__"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.index"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.__getitem__"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.__getitem__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.__contains__"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.__contains__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.symbols"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.symbols()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.def_sym_set"><code class="docutils literal notranslate"><span class="pre">Utils.def_sym_set</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str"><code class="docutils literal notranslate"><span class="pre">Utils.ord_str()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.chr_str"><code class="docutils literal notranslate"><span class="pre">Utils.chr_str()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.shift_ord"><code class="docutils literal notranslate"><span class="pre">Utils.shift_ord()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.shift_message"><code class="docutils literal notranslate"><span class="pre">Utils.shift_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils._init_count_dict"><code class="docutils literal notranslate"><span class="pre">Utils._init_count_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.count_chars"><code class="docutils literal notranslate"><span class="pre">Utils.count_chars()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.default_set"><code class="docutils literal notranslate"><span class="pre">Utils.default_set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.columnize"><code class="docutils literal notranslate"><span class="pre">Utils.columnize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.caesar_cipher.caesar_cipher"><code class="docutils literal notranslate"><span class="pre">caesar_cipher()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.caesar_cipher.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.vigenere_cipher.vigenere_cipher"><code class="docutils literal notranslate"><span class="pre">vigenere_cipher()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.vigenere_cipher.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.frequency_analysis"><code class="docutils literal notranslate"><span class="pre">frequency_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.cross_correlation"><code class="docutils literal notranslate"><span class="pre">cross_correlation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.get_caesar_shift"><code class="docutils literal notranslate"><span class="pre">get_caesar_shift()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.get_vigenere_keyword"><code class="docutils literal notranslate"><span class="pre">get_vigenere_keyword()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -95,6 +126,8 @@
 <span class="sd">        allowed (list[str]): List of allowed characters (if is_range is False)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="Symbol_Set.__init__">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a Symbol_Set with either a range tuple or explicit character string.</span>
@@ -134,7 +167,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Symbol_Set must be initialized with a tuple or string. Got </span><span class="si">{</span><span class="n">symbols</span><span class="si">}</span><span class="s2"> of type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+            <span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Symbol_Set.index">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.index">[docs]</a>
@@ -173,6 +207,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="Symbol_Set.__getitem__">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.__getitem__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># overrides python&#39;s [] operator</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return character at cyclic index (supports negative indices and wrapping)</span>
@@ -195,8 +231,11 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">]</span></div>
 
+
+<div class="viewcode-block" id="Symbol_Set.__contains__">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.__contains__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># overrides python&#39;s in operator</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if character is in the symbol set</span>
@@ -218,7 +257,8 @@
             <span class="n">o</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">&lt;=</span> <span class="n">o</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span>
+            <span class="k">return</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span></div>
+
 
 <div class="viewcode-block" id="Symbol_Set.symbols">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.symbols">[docs]</a>
@@ -352,6 +392,8 @@
         <span class="k">return</span> <span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">(</span><span class="n">shifted_ord_message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="Utils._init_count_dict">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils._init_count_dict">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_init_count_dict</span><span class="p">(</span><span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -368,7 +410,8 @@
 <span class="sd">            {&#39;A&#39;: 0, &#39;B&#39;: 0}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span></div>
+
 
 <div class="viewcode-block" id="Utils.count_chars">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.count_chars">[docs]</a>
@@ -452,9 +495,6 @@
     <p>&#169; Copyright 2026, Logan Jacobs.</p>
   </div>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
