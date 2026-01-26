@@ -7,3 +7,4 @@ https://stackoverflow.com/questions/30556857/creating-a-static-class-with-no-ins
 ChatGPT: asked about cross-correlation intuitive meaning, and if it can be done for arbitrary sets
 ChatGPT: told me I probably shouldn't use @dataclass on Symbol_Set for this use case. Actually useful when it says I SHOULDNT do something.
 ChatGPT: explained why i need __init__.py for module creation, and why __main__.py is useful. also explained how i can create documentation using sphinx
+Deepseek: helped me deploy my documentation using github pages.
