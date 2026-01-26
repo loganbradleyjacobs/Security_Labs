@@ -45,6 +45,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cryptology Package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set"><code class="docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.is_range"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.is_range</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.low"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.low</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.high"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.high</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.size"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.allowed"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.allowed</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.index"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set.symbols"><code class="docutils literal notranslate"><span class="pre">Symbol_Set.symbols()</span></code></a></li>
 </ul>
@@ -102,11 +107,67 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class that reconciles the differences in representation between a
 string of characters passed as an alphabet, and a tuple of a high and low
-bound of ascii characters. All utility functions can be passed a Symbol_Set
-object, initialized as either:
-SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive.
-Or,
-SymbolSet(“ABCDEF “): includes A through F inclusive and space.</p>
+bound of ascii characters.</p>
+<p>All utility functions can be passed a Symbol_Set object, initialized as either:</p>
+<ul class="simple">
+<li><p>SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive.</p></li>
+<li><p>SymbolSet(“ABCDEF “): includes A through F inclusive and space.</p></li>
+</ul>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.is_range">
+<span class="sig-name descname"><span class="pre">is_range</span></span><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.is_range" title="Link to this definition"></a></dt>
+<dd><p>Whether the symbol set is defined by a range</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.low">
+<span class="sig-name descname"><span class="pre">low</span></span><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.low" title="Link to this definition"></a></dt>
+<dd><p>Lower ASCII bound (if is_range is True)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.high">
+<span class="sig-name descname"><span class="pre">high</span></span><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.high" title="Link to this definition"></a></dt>
+<dd><p>Upper ASCII bound (if is_range is True)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.size" title="Link to this definition"></a></dt>
+<dd><p>Number of characters in the symbol set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.allowed">
+<span class="sig-name descname"><span class="pre">allowed</span></span><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.allowed" title="Link to this definition"></a></dt>
+<dd><p>List of allowed characters (if is_range is False)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.index">
 <span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Symbol_Set.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.index" title="Link to this definition"></a></dt>

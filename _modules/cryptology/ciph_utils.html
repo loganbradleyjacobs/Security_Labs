@@ -80,11 +80,19 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class that reconciles the differences in representation between a</span>
 <span class="sd">    string of characters passed as an alphabet, and a tuple of a high and low</span>
-<span class="sd">    bound of ascii characters. All utility functions can be passed a Symbol_Set</span>
-<span class="sd">    object, initialized as either:</span>
-<span class="sd">    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. </span>
-<span class="sd">    Or,</span>
-<span class="sd">    SymbolSet(&quot;ABCDEF &quot;): includes A through F inclusive and space.</span>
+<span class="sd">    bound of ascii characters.</span>
+<span class="sd">    </span>
+<span class="sd">    All utility functions can be passed a Symbol_Set object, initialized as either:</span>
+<span class="sd">    </span>
+<span class="sd">    - SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive.</span>
+<span class="sd">    - SymbolSet(&quot;ABCDEF &quot;): includes A through F inclusive and space.</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        is_range (bool): Whether the symbol set is defined by a range</span>
+<span class="sd">        low (int): Lower ASCII bound (if is_range is True)</span>
+<span class="sd">        high (int): Upper ASCII bound (if is_range is True)</span>
+<span class="sd">        size (int): Number of characters in the symbol set</span>
+<span class="sd">        allowed (list[str]): List of allowed characters (if is_range is False)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span>
