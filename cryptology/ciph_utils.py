@@ -9,11 +9,27 @@ class Symbol_Set:
     string of characters passed as an alphabet, and a tuple of a high and low
     bound of ascii characters. All utility functions can be passed a Symbol_Set
     object, initialized as either:
-    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. Or,
+    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. 
+    Or,
     SymbolSet("ABCDEF "): includes A through F inclusive and space.
     """
 
     def __init__(self, symbols: tuple[int, int] | str):
+        """
+        Initialize a Symbol_Set with either a range tuple or explicit character string.
+        
+        Args:
+            symbols: Either a tuple (low, high) defining ASCII code range (inclusive),
+                    or a string containing explicit allowed characters
+        
+        Raises:
+            TypeError: If symbols is not a tuple or string, or if a list is provided
+            ValueError: If tuple range is invalid (low > high)
+        
+        Example:
+            >>> Symbol_Set((32, 126))  # Printable ASCII
+            >>> Symbol_Set("ABCDEF ")   # A-F and space
+        """
         if isinstance(symbols, tuple):
             self.is_range = True
             self.low, self.high = symbols
@@ -40,7 +56,26 @@ class Symbol_Set:
             )
 
     def index(self, c: str) -> int:
-        """Return index of character in symbol set"""
+        """
+        Return index of character in symbol set
+        
+        Args:
+            c: Single character to find index of
+        
+        Returns:
+            int: Zero-based index of character in the symbol set
+        
+        Raises:
+            ValueError: If character is not in the symbol set
+        
+        Example:
+            >>> s = Symbol_Set("ABCD")
+            >>> s.index("B")
+            1
+            >>> s = Symbol_Set((65, 68))
+            >>> s.index("B")
+            1
+        """
         if self.is_range:
             o = ord(c)
             if not self.low <= o <= self.high:
@@ -55,14 +90,46 @@ class Symbol_Set:
             return self.allowed.index(c)
 
     def __getitem__(self, idx: int) -> str:  # overrides python's [] operator
-        """Return character at cyclic index"""
+        """
+        Return character at cyclic index (supports negative indices and wrapping)
+        
+        Args:
+            idx: Integer index (can be negative, wraps modulo symbol set size)
+        
+        Returns:
+            str: Character at the given index (with wrap-around)
+        
+        Example:
+            >>> s = Symbol_Set("ABCD")
+            >>> s[0]
+            'A'
+            >>> s[5]  # 5 % 4 = 1
+            'B'
+            >>> s[-1]  # -1 % 4 = 3
+            'D'
+        """
         if self.is_range:
             return chr(self.low + (idx % self.size))
         else:
             return self.allowed[idx % self.size]
 
     def __contains__(self, c: str):  # overrides python's in operator
-        """Custom 'in' functionality, as it changes depending on internal representation"""
+        """
+        Check if character is in the symbol set
+        
+        Args:
+            c: Character to check for membership
+        
+        Returns:
+            bool: True if character is in the symbol set, False otherwise
+        
+        Example:
+            >>> s = Symbol_Set("ABCD")
+            >>> 'B' in s
+            True
+            >>> 'Z' in s
+            False
+        """
         if self.is_range:
             o = ord(c)
             return self.low <= o <= self.high
@@ -70,7 +137,20 @@ class Symbol_Set:
             return c in self.allowed
 
     def symbols(self):
-        """Return list of all characters in the symbol set"""
+        """
+        Return list of all characters in the symbol set
+        
+        Returns:
+            list[str]: All characters in the symbol set in order
+        
+        Example:
+            >>> s = Symbol_Set("ABC")
+            >>> s.symbols()
+            ['A', 'B', 'C']
+            >>> s = Symbol_Set((65, 67))
+            >>> s.symbols()
+            ['A', 'B', 'C']
+        """
         if self.is_range:
             return [chr(i) for i in range(self.low, self.high + 1)]
         else:
@@ -88,7 +168,20 @@ class Utils:
 
     @staticmethod
     def ord_str(message: str, symbols: Symbol_Set) -> list[int]:
-        """Convert a string to a list of ASCII values, validates against symbols"""
+        """
+        Convert a string to a list of ASCII values, validates against symbols
+        
+        Args:
+            message: String to convert to ASCII codes
+            symbols: Symbol_Set defining valid characters
+        
+        Returns:
+            list[int]: ASCII codes of characters in message that are in symbols
+        
+        Example:
+            >>> Utils.ord_str("AB C", Symbol_Set("ABC "))
+            [65, 66, 32, 67]
+        """
         symbols = Utils.default_set(symbols)
         return [
             ord(c) for c in message if c in symbols
@@ -96,20 +189,62 @@ class Utils:
 
     @staticmethod
     def chr_str(ord_message: list[int], symbols: Symbol_Set = None) -> str:
-        """Convert a list of ASCII values to a string, validating against symbols"""
+        """
+        Convert a list of ASCII values to a string, validating against symbols
+        
+        Args:
+            ord_message: List of ASCII codes to convert to characters
+            symbols: Symbol_Set defining valid characters (defaults to printable ASCII)
+        
+        Returns:
+            str: String composed of characters whose ASCII codes are in symbols
+        
+        Example:
+            >>> Utils.chr_str([65, 66, 67], Symbol_Set("ABC"))
+            'ABC'
+        """
         symbols = Utils.default_set(symbols)
         return "".join(chr(d) for d in ord_message if chr(d) in symbols)
 
     @staticmethod
     def shift_ord(d: int, shift: int, symbols: Symbol_Set = None) -> int:
-        """Shift an int within a cyclic ordered set. symbols' range is inclusive. symbols defaults to printable ASCII (32-126 inclusive)."""
-        symbols = Utils.default_set(symbols)
+        """
+        Shift an int within a cyclic ordered set. symbols' range is inclusive.
+        
+        Args:
+            d: ASCII code of character to shift
+            shift: Number of positions to shift (positive or negative)
+            symbols: Symbol_Set defining the cyclic character set (defaults to printable ASCII)
+        
+        Returns:
+            int: ASCII code of shifted character (with wrap-around)
+        
+        Example:
+            >>> Utils.shift_ord(65, 2, Symbol_Set("ABC"))  # A -> C
+            67
+            >>> Utils.shift_ord(65, -1, Symbol_Set("ABC"))  # A -> C (wraps around)
+            67
+        """
         idx = symbols.index(chr(d))
         return ord(symbols[idx + shift])
 
     @staticmethod
     def shift_message(message: str, shift: int, symbols: Symbol_Set = None) -> str:
-        """Shift all chars in a str by 'shift' positions within the Symbol_Set"""
+        """
+        Shift all chars in a str by 'shift' positions within the Symbol_Set
+        
+        Args:
+            message: String to shift
+            shift: Number of positions to shift each character
+            symbols: Symbol_Set defining valid characters (defaults to printable ASCII)
+        
+        Returns:
+            str: Message with each character shifted by 'shift' positions
+        
+        Example:
+            >>> Utils.shift_message("ABC", 1, Symbol_Set("ABC"))
+            'BCA'
+        """
         symbols = Utils.default_set(symbols)
         ord_message = Utils.ord_str(message, symbols)
         shifted_ord_message = [Utils.shift_ord(d, shift, symbols) for d in ord_message]
@@ -117,13 +252,38 @@ class Utils:
 
     @staticmethod
     def _init_count_dict(symbols: Symbol_Set = None) -> dict[str, int]:
-        """Create a {str:int} dictionary to be used in _count_chars(). Includes all characters in 'symbols', which defaults to an uppercase alphabet and a space char."""
+        """
+        Create a {str:int} dictionary to be used in _count_chars().
+        
+        Args:
+            symbols: Symbol_Set defining the characters to include (defaults to printable ASCII)
+        
+        Returns:
+            dict[str, int]: Dictionary with all symbols as keys and 0 as initial values
+        
+        Example:
+            >>> Utils._init_count_dict(Symbol_Set("AB"))
+            {'A': 0, 'B': 0}
+        """
         symbols = Utils.default_set(symbols)
         return {c: 0 for c in symbols.symbols()}
 
     @staticmethod
     def count_chars(ciphertext: str, symbols: Symbol_Set = None) -> dict[str, int]:
-        """Count the occurrences in the ciphertext of all valid characters"""
+        """
+        Count the occurrences in the ciphertext of all valid characters
+        
+        Args:
+            ciphertext: String to analyze
+            symbols: Symbol_Set defining which characters to count (defaults to printable ASCII)
+        
+        Returns:
+            dict[str, int]: Dictionary mapping characters to their counts in ciphertext
+        
+        Example:
+            >>> Utils.count_chars("AABBC", Symbol_Set("ABC"))
+            {'A': 2, 'B': 2, 'C': 1}
+        """
         symbols = Utils.default_set(symbols)
         counts = Utils._init_count_dict(symbols)
         for c in ciphertext:
@@ -133,13 +293,37 @@ class Utils:
 
     @staticmethod
     def default_set(symbols: Symbol_Set = None):
-        """Returns the default set if symbols is none, or returns symbols that are passed.
-        The default set is printable ASCIIs: Symbol_Set((32, 126))"""
+        """
+        Returns the default set if symbols is none, or returns symbols that are passed.
+        
+        Args:
+            symbols: Symbol_Set to return if not None
+        
+        Returns:
+            Symbol_Set: Input symbols if provided, otherwise default printable ASCII set
+        
+        Example:
+            >>> Utils.default_set(None)  # Returns Symbol_Set((32, 126))
+            >>> Utils.default_set(Symbol_Set("AB"))  # Returns Symbol_Set("AB")
+        """
         return symbols or Utils.def_sym_set
     
     @staticmethod
     def columnize(enc_message: str, size: int) -> list[str]:
-        """Splits the encrypted message into 'size' columns. Used in Vigenere Cipher cryptanalysis."""
+        """
+        Splits the encrypted message into 'size' columns. Used in Vigenere Cipher cryptanalysis.
+        
+        Args:
+            enc_message: Encrypted message to split into columns
+            size: Number of columns to create (key length in Vigenere analysis)
+        
+        Returns:
+            list[str]: List of strings, each containing characters from one column
+        
+        Example:
+            >>> Utils.columnize("ABCDEF", 2)
+            ['ACE', 'BDF']
+        """
         cols = [[] for _ in range(size)]
         for i, c in enumerate(enc_message):
             cols[i % size].append(c)

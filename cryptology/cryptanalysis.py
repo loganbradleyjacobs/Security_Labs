@@ -8,7 +8,20 @@ from cryptology.vigenere_cipher import vigenere_cipher
 
 
 def frequency_analysis(message: str, symbols: Symbol_Set = None) -> dict[str, float]:
-    """Creates a dictionary for characters and their frequencies within a message."""
+    """
+    Creates a dictionary for characters and their frequencies within a message.
+    
+    Args:
+        message: String to analyze for character frequencies
+        symbols: Symbol_Set defining which characters to analyze (defaults to printable ASCII)
+    
+    Returns:
+        dict[str, float]: Dictionary mapping each character to its relative frequency (0.0 to 1.0)
+    
+    Example:
+        >>> frequency_analysis("AAB", Symbol_Set("ABC"))
+        {'A': 0.666..., 'B': 0.333..., 'C': 0.0}
+    """
     symbols = Utils.default_set(symbols)
     counts = Utils.count_chars(message, symbols)
     total = sum(counts.values())
@@ -23,6 +36,20 @@ def cross_correlation(
     """
     Gets cross correlation between two similar sets, returns the cross correlation for every shift.
     Intuition: if dict2 slides past dict1, at what shift do they match the best?
+    
+    Args:
+        dict1: First frequency dictionary (e.g., observed frequencies)
+        dict2: Second frequency dictionary (e.g., expected frequencies or another observed set)
+        symbols: Symbol_Set defining the character order (defaults to printable ASCII)
+    
+    Returns:
+        list[float]: Cross-correlation values for each possible shift (0 to n-1 where n is symbol set size)
+    
+    Example:
+        >>> dict1 = {'A': 0.5, 'B': 0.3, 'C': 0.2}
+        >>> dict2 = {'A': 0.2, 'B': 0.5, 'C': 0.3}
+        >>> cross_correlation(dict1, dict2, Symbol_Set("ABC"))
+        [0.38, 0.31, 0.31]  # Highest value at shift 0 indicates best match at no shift
     """
     symbols = Utils.default_set(symbols)
     n = symbols.size
@@ -44,8 +71,23 @@ def get_caesar_shift(
 ) -> int:
     """
     Gets the likely shift used to originally encrypt a caesar cipher.
-    Warning: This function will only work with the 'upper_alphabet_with_space symbol set = Symbol_Set("ABCEDFGHIJKLMNOPQRSTUVWXYZ ")
-    Any difference in size between the symbol sets will muddle the modular arithmetic.
+    
+    Args:
+        enc_message: Encrypted ciphertext to analyze
+        expected_dist: Dictionary of expected character frequencies for the language
+        symbols: Symbol_Set defining valid characters (defaults to printable ASCII)
+    
+    Returns:
+        int: Most likely Caesar cipher shift value (0 to n-1 where n is symbol set size)
+    
+    Example:
+        >>> english_dist = {'A': 0.082, 'B': 0.015, ...}  # English letter frequencies
+        >>> get_caesar_shift("XYZ", english_dist, Symbol_Set("ABC...XYZ"))
+        3  # Indicates likely shift of 3 (X=A+3, Y=B+3, Z=C+3)
+    
+    Note:
+        This function will only work with the 'upper_alphabet_with_space symbol set = Symbol_Set("ABCEDFGHIJKLMNOPQRSTUVWXYZ ")
+        Any difference in size between the symbol sets will muddle the modular arithmetic.
     """
     symbols = Utils.default_set(symbols)
     cc = cross_correlation(
@@ -60,8 +102,27 @@ def get_vigenere_keyword(
     expected_dist: dict[str, float],
     symbols: Symbol_Set = None,
 ) -> str:
-    """Gets the likely keyword used to originally encrypt a vigenere cipher."""
-    keyword = ""
+    """
+    Gets the likely keyword used to originally encrypt a vigenere cipher.
+    
+    Args:
+        enc_message: Encrypted ciphertext to analyze
+        size: Assumed length of the Vigenere keyword
+        expected_dist: Dictionary of expected character frequencies for the language
+        symbols: Symbol_Set defining valid characters (defaults to printable ASCII)
+    
+    Returns:
+        str: Most likely Vigenere keyword based on frequency analysis
+    
+    Example:
+        >>> english_dist = {'A': 0.082, 'B': 0.015, ...}
+        >>> get_vigenere_keyword("CIWEM", 2, english_dist, Symbol_Set("ABC...XYZ"))
+        'AB'  # Likely keyword of length 2
+    
+    Note:
+        The function assumes the ciphertext was encrypted with a Vigenere cipher
+        using a keyword of the specified length.
+    """
     if size == 0:
         return keyword
     messages = Utils.columnize(enc_message, size)

@@ -5,7 +5,24 @@
 from cryptology.ciph_utils import Utils, Symbol_Set
 
 def caesar_cipher(message: str, shift: int, encrypt:bool, symbols: Symbol_Set = Symbol_Set((32, 126))) -> str:
-    '''Allows encrypting or decrypting an arbitrary message by a arbitrary shift using the caesar cipher method'''
+    '''
+    Allows encrypting or decrypting an arbitrary message by a arbitrary shift using the caesar cipher method
+    
+    Args:
+        message: The plaintext or ciphertext message to process
+        shift: The number of positions to shift characters (for encryption) or the known shift (for decryption)
+        encrypt: Boolean flag indicating whether to encrypt (True) or decrypt (False) the message
+        symbols: Symbol_Set defining the valid character range for the cipher. Defaults to printable ASCII (32-126)
+    
+    Returns:
+        str: The resulting ciphertext (if encrypting) or plaintext (if decrypting)
+    
+    Example:
+        >>> caesar_cipher("Hello", 5, True)
+        'Mjqqt'
+        >>> caesar_cipher("Mjqqt", 5, False)
+        'Hello'
+    '''
     return Utils.shift_message(message, shift, symbols) if encrypt else Utils.shift_message(message, -shift, symbols)
 
 def main():
