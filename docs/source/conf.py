@@ -39,7 +39,7 @@ autodoc_default_options = {
     'member-order': 'bysource', # Order as in source code
     'special-members': '__init__, __contains__, __getitem__, __str__',
     'undoc-members': True,     # Include members without docstrings
-    'exclude-members': '__weakref__',  # Exclude this internal member
+    'exclude-members': '__weakref__, main',  # Exclude this internal member
     'show-inheritance': True,  # Show class inheritance
 }
 autodoc_typehints = 'description'
