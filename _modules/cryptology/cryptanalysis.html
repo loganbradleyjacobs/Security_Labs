@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptology.cryptanalysis &mdash; Security Labs 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Security Labs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Cryptology Package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Security Labs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptology.cryptanalysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptology.cryptanalysis</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Logan Jacobs</span>
+<span class="c1"># CSC-348 Computer Security</span>
+<span class="c1"># 1/25/26</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptology.ciph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Utils</span><span class="p">,</span> <span class="n">Symbol_Set</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptology.caesar_cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">caesar_cipher</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptology.vigenere_cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">vigenere_cipher</span>
+
+
+<div class="viewcode-block" id="frequency_analysis">
+<a class="viewcode-back" href="../../modules.html#cryptology.cryptanalysis.frequency_analysis">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">frequency_analysis</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a dictionary for characters and their frequencies within a message.&quot;&quot;&quot;</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">count_chars</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">total</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span></div>
+
+
+
+<div class="viewcode-block" id="cross_correlation">
+<a class="viewcode-back" href="../../modules.html#cryptology.cryptanalysis.cross_correlation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cross_correlation</span><span class="p">(</span>
+    <span class="n">dict1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">dict2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets cross correlation between two similar sets, returns the cross correlation for every shift.</span>
+<span class="sd">    Intuition: if dict2 slides past dict1, at what shift do they match the best?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="c1"># allows dict1 and dict2 to have a symbol set that is a subset of &#39;symbols&#39;</span>
+    <span class="n">freq1</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">dict1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span>
+    <span class="n">freq2</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">dict2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span>
+    <span class="n">vals2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">freq2</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>  <span class="c1"># apparently freq2.values() is a view, not a list, so you need to explicitly cast it</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()):</span>
+            <span class="n">phi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">freq1</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">vals2</span><span class="p">[(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">phi</span></div>
+
+
+
+<div class="viewcode-block" id="get_caesar_shift">
+<a class="viewcode-back" href="../../modules.html#cryptology.cryptanalysis.get_caesar_shift">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_caesar_shift</span><span class="p">(</span>
+    <span class="n">enc_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_dist</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the likely shift used to originally encrypt a caesar cipher.</span>
+<span class="sd">    Warning: This function will only work with the &#39;upper_alphabet_with_space symbol set = Symbol_Set(&quot;ABCEDFGHIJKLMNOPQRSTUVWXYZ &quot;)</span>
+<span class="sd">    Any difference in size between the symbol sets will muddle the modular arithmetic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+    <span class="n">cc</span> <span class="o">=</span> <span class="n">cross_correlation</span><span class="p">(</span>
+        <span class="n">frequency_analysis</span><span class="p">(</span><span class="n">enc_message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">),</span> <span class="n">expected_dist</span><span class="p">,</span> <span class="n">symbols</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">cc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">cc</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="get_vigenere_keyword">
+<a class="viewcode-back" href="../../modules.html#cryptology.cryptanalysis.get_vigenere_keyword">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_vigenere_keyword</span><span class="p">(</span>
+    <span class="n">enc_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">expected_dist</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the likely keyword used to originally encrypt a vigenere cipher.&quot;&quot;&quot;</span>
+    <span class="n">keyword</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">keyword</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">columnize</span><span class="p">(</span><span class="n">enc_message</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+        <span class="n">likely_shift</span> <span class="o">=</span> <span class="n">get_caesar_shift</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">expected_dist</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
+        <span class="n">likely_char</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()[</span><span class="n">likely_shift</span><span class="p">]</span>
+        <span class="n">keyword</span> <span class="o">+=</span> <span class="n">likely_char</span>
+    <span class="k">return</span> <span class="n">keyword</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">common_symbol_sets</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;ASCII_printables&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">126</span><span class="p">)),</span>
+        <span class="s2">&quot;upper_alphabet&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;lower_alphabet&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot; ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;lower_alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot; abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;A_through_F&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span>
+            <span class="s2">&quot; ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 2.2</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello World This is a long message so that frequency analysis can be used with more precision&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(2.2)--------------------------------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Frequency Analysis: </span><span class="si">{</span><span class="n">frequency_analysis</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">common_symbol_sets</span><span class="p">[</span><span class="s1">&#39;ASCII_printables&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 2.3</span>
+    <span class="n">set1</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mf">0.012</span><span class="p">,</span>
+        <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mf">0.003</span><span class="p">,</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">set2</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+        <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mf">0.012</span><span class="p">,</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mf">0.003</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">set3</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mf">0.012</span><span class="p">,</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mf">0.003</span><span class="p">,</span>
+        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(2.3)--------------------------------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set1: </span><span class="si">{</span><span class="n">set1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set2: </span><span class="si">{</span><span class="n">set2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set3: </span><span class="si">{</span><span class="n">set3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Cross-Correlation between Set 1 &amp; 2: </span><span class="si">{</span><span class="n">cross_correlation</span><span class="p">(</span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span><span class="p">,</span><span class="w"> </span><span class="n">common_symbol_sets</span><span class="p">[</span><span class="s1">&#39;A_through_F&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Cross-Correlation between Set 1 &amp; 3: </span><span class="si">{</span><span class="n">cross_correlation</span><span class="p">(</span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set3</span><span class="p">,</span><span class="w"> </span><span class="n">common_symbol_sets</span><span class="p">[</span><span class="s1">&#39;A_through_F&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 2.4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(2.4)--------------------------------&quot;</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">caesar_cipher</span><span class="p">(</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="mi">7</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">common_symbol_sets</span><span class="p">[</span><span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message: </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ciphertext (using Caesar Cipher): </span><span class="si">{</span><span class="n">C</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">english_dist</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot; &quot;</span><span class="p">:</span> <span class="mf">0.1828846265</span><span class="p">,</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="mf">0.1026665037</span><span class="p">,</span>
+        <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="mf">0.0751699827</span><span class="p">,</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mf">0.0653216702</span><span class="p">,</span>
+        <span class="s2">&quot;O&quot;</span><span class="p">:</span> <span class="mf">0.0615957725</span><span class="p">,</span>
+        <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="mf">0.0571201113</span><span class="p">,</span>
+        <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="mf">0.0566844326</span><span class="p">,</span>
+        <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="mf">0.0531700534</span><span class="p">,</span>
+        <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="mf">0.0498790855</span><span class="p">,</span>
+        <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="mf">0.0497856396</span><span class="p">,</span>
+        <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="mf">0.0331754796</span><span class="p">,</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="mf">0.0328292310</span><span class="p">,</span>
+        <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="mf">0.0227579536</span><span class="p">,</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mf">0.0223367596</span><span class="p">,</span>
+        <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="mf">0.0202656783</span><span class="p">,</span>
+        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mf">0.0198306716</span><span class="p">,</span>
+        <span class="s2">&quot;W&quot;</span><span class="p">:</span> <span class="mf">0.0170389377</span><span class="p">,</span>
+        <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="mf">0.0162490441</span><span class="p">,</span>
+        <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mf">0.0150432428</span><span class="p">,</span>
+        <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="mf">0.0142766662</span><span class="p">,</span>
+        <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mf">0.0125888074</span><span class="p">,</span>
+        <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="mf">0.0079611644</span><span class="p">,</span>
+        <span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="mf">0.0056096272</span><span class="p">,</span>
+        <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="mf">0.0014092016</span><span class="p">,</span>
+        <span class="s2">&quot;J&quot;</span><span class="p">:</span> <span class="mf">0.0009752181</span><span class="p">,</span>
+        <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="mf">0.0008367550</span><span class="p">,</span>
+        <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="mf">0.0005128469</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">likely_shift</span> <span class="o">=</span> <span class="n">get_caesar_shift</span><span class="p">(</span>
+        <span class="n">C</span><span class="p">,</span> <span class="n">english_dist</span><span class="p">,</span> <span class="n">common_symbol_sets</span><span class="p">[</span><span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Likely shift used in Caesar Cipher Encryption: </span><span class="si">{</span><span class="n">likely_shift</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">decrypted_message</span> <span class="o">=</span> <span class="n">caesar_cipher</span><span class="p">(</span>
+        <span class="n">C</span><span class="p">,</span> <span class="n">likely_shift</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">common_symbol_sets</span><span class="p">[</span><span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message Decrypted with Likely Shift: </span><span class="si">{</span><span class="n">decrypted_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 2.5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(2.5)--------------------------------&quot;</span><span class="p">)</span>
+    <span class="n">m1</span> <span class="o">=</span> <span class="s2">&quot;PFAAP T FMJRNEDZYOUDPMJ AUTTUZHGLRVNAESMJRNEDZYOUDPMJ YHPD NUXLPASBOIRZTTAHLTM QPKQCFGBYPNJMLO GAFMNUTCITOMD BHKEIPAEMRYETEHRGKUGU TEOMWKUVNJRLFDLYPOZGHR RDICEEZB NMHGP FOYLFDLYLFYVPLOSGBZFAYFMTVVGLPASBOYZHDQREGAMVRGWCEN YP ELOQRNSTZAFPHZAYGI LVJBQSMCBEHM AQ VUMQNFPHZ AMTARA YOTVU LTULTUNFLKZEFGUZDMVMTEDGBZFAYFMTVVGLCATFFNVJUEIAUTEEPOG LANBQSMPWESMZRDTRTLLATHBZSFGFMLVJB UEGUOTAYLLHACYGEDGFMNKGHR FOYDEMWHXIPPYD NYYLOHLKXYMIK AQGUZDMPEX QLZUNRKTMNQGEMCXGWXENYTOHRJDD NUXLBNSUZCRZT RMVMTEDGXQMAJKMTVJTMCPVNZTNIBXIFETYEPOUZIETLL IOBOHMJUZ YLUP FVTTUZHGLRVNAESMHVFSRZTMNQGWMNMZMUFYLTUN VOMTVVGLFAYTQXNTIXEMLQERRTYLCKIYCSRJNCIFETXAIZTOA GVQ GZYP FVTOE ZHC QPLDIQLGESMTHZIFVKLCATFFNVJUEIAULLA KTORVTBZAYPSQ AUEUNRGNDEDZTRODGYIPDLLDI NTEHRPKLVVLPD&quot;</span>
+    <span class="n">m2</span> <span class="o">=</span> <span class="s2">&quot;TEZHRAIRGMQHNJSQPTLNZJNEVMQHRXAVASLIWDNFOELOPFWGZ UHSTIRGLUMCSW GTTQCSJULNLQK OHL MHCMPWLCEHTFNUHNPHTSFFADJHTLNBYORWEFRYE PIISO K ZQR GMPTLQCSPRMOCMKESMTYLUTFRMIEOWXXFMWECCLWSQGWUASSWFGTTMYSGUL QNQGEFGTTIDSWMOAGMKEOQL U KOVN  AMZHZRGACMKHZRHSQLKLBMJAXTKLVRGFCBTLNAM SMYAHEGIEHTKNFOELNBMWFGORHWTPAY MVOSGUVUSPD&quot;</span>
+    <span class="n">m3</span> <span class="o">=</span> <span class="s2">&quot;HYMUANDCHQNHOPOK ZDBFBQVZUTY QVZTYLFAHNRCFBZVA QCHVVUIP  KLZ FYHRHNHCQOHMKUKOTQXLIXYROHMUEEOVEVCVIMQPIWBCPTMM CKSQNCNIBFFZCNVPORZZ EL BMXTGAORVY CKPBFTEFXHYMUANDCHQNHOXXIHV NYFXMUPCOHQW  VETQCVLWBOENUAPVORZNIHFRZIF KKHVTFIIBBTMUTG WDWFOIVOZVUMCKMQKVSGPOJPZ NYFXMUTTYXDQHGBAPJIUSGQGQABAVXREUZ HOCCHJUDIXTHMUTSTZTFAP TQNVCGXFVKIGPFHZWH CKSQNCNIBFFZCNVXQZWGEVOXT UFKKPDKCANXPDLUMGAXTIF CMDBQXAVFCD UATBOFZCVCQTQIHDBLUJMH ELBJICNBMTH INCI OHCDGKHZNCADITQQHFQOARACOPXPJAVCMBFIHQHGQWVZUOTDPDQTEFXRHQGEBDFEBJSBLFQJOSKKTI UCQJDVACTQOGQKVNBQPAMUAFSPDAVGGXCWHNHKPOZV OTJPJQINBCCHHZCQKCCQX TBPIWHSBLFQWNHGOOHMQATAGQQH CASZACOPXHYMUATQXWQXICIOZVNENIXXMHCGXGO NEOPOWIXEBQWVHLIUHOENURQDIVHYAVYOZVDEEQXEVUMCIXTQIUUIMQ ZNVXHEHYIUOIFAUNGRFRTUNGQKEZESBCIDKNIQKPBQNYBIXAMUMKPRBIMSKCXTINIQKOENUFC TQZZCQDBZACOPXXCIAEUXHEHVLNLKQINTC ZVZM VLOV XARBOUMNEEQXEVUCQJDRVCEUXHYIN ROCJMXTBQFRQHIPDORTAOTFHYUM CKSQBMETXSRAV YF BHWEBAXWNZRGKHZINEFXXDHNHGFFQNCENAGQNLOOXREUJAPFTIHNHCQOIB FGOOWZIMBQWVH IPYBTQVLBOXISM QCOSMCNIXTNXFOKQTUHBEP TQQN KPOYQAHNVOZUJOTQPDAUTQXTD ORGXHYIN FYHRHCSBOTTMCVGAOEVFYBCFEUUTTRGJMY ULIHKZSBYBUHJRQQTTAZDBAIHQHGBRGV&quot;</span>
+
+    <span class="n">symbols</span> <span class="o">=</span> <span class="n">common_symbol_sets</span><span class="p">[</span><span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">mj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original Message:</span><span class="se">\n</span><span class="si">{</span><span class="n">mj</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+            <span class="n">likely_keyword</span> <span class="o">=</span> <span class="n">get_vigenere_keyword</span><span class="p">(</span><span class="n">mj</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">english_dist</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
+            <span class="n">decrypted_message</span> <span class="o">=</span> <span class="n">vigenere_cipher</span><span class="p">(</span><span class="n">mj</span><span class="p">,</span> <span class="n">likely_keyword</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;keylength = </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, tried keyword: &#39;</span><span class="si">{</span><span class="n">likely_keyword</span><span class="si">}</span><span class="s2">&#39; -------------------------------------------&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decrypted Message:</span><span class="se">\n</span><span class="si">{</span><span class="n">decrypted_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Logan Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptology.ciph_utils &mdash; Security Labs 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Security Labs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Cryptology Package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Security Labs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptology.ciph_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptology.ciph_utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Logan Jacobs</span>
+<span class="c1"># CSC-348 Computer Security</span>
+<span class="c1"># 1/24/26</span>
+
+
+<div class="viewcode-block" id="Symbol_Set">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Symbol_Set</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that reconciles the differences in representation between a</span>
+<span class="sd">    string of characters passed as an alphabet, and a tuple of a high and low</span>
+<span class="sd">    bound of ascii characters. All utility functions can be passed a Symbol_Set</span>
+<span class="sd">    object, initialized as either:</span>
+<span class="sd">    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. Or,</span>
+<span class="sd">    SymbolSet(&quot;ABCDEF &quot;): includes A through F inclusive and space.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">=</span> <span class="n">symbols</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">feedback_list</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;Symbol_Set does not accept a mutable list.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Use a tuple for ranges (low, high) or a string for explicit symbols.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">feedback_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Did you do: Symbol_Set([low,high]), when you meant: Symbol_Set((low, high))?</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">feedback_list</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Symbol_Set must be initialized with a tuple or string. Got </span><span class="si">{</span><span class="n">symbols</span><span class="si">}</span><span class="s2"> of type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="Symbol_Set.index">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.index">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return index of character in symbol set&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">&lt;=</span> <span class="n">o</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span><span class="p">:</span>
+                <span class="c1"># shouldn&#39;t happen, but better safe than sorry</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">!r}</span><span class="s2"> out of range </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">high</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">o</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">!r}</span><span class="s2"> not in allowed symbols </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># overrides python&#39;s [] operator</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return character at cyclic index&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># overrides python&#39;s in operator</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Custom &#39;in&#39; functionality, as it changes depending on internal representation&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">&lt;=</span> <span class="n">o</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span>
+
+<div class="viewcode-block" id="Symbol_Set.symbols">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.symbols">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of all characters in the symbol set&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Utils">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Utils</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains utility functions for caesar-cipher and vigenere encryption and</span>
+<span class="sd">    decryption, as well as those for cryptanalysis of caesar ciphers</span>
+<span class="sd">    All methods operate using a Symbol_Set object, passed explicitly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">def_sym_set</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">126</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Utils.ord_str">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ord_str</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a string to a list of ASCII values, validates against symbols&quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">message</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span>
+        <span class="p">]</span>  <span class="c1"># terse because errors are automatically thrown by &#39;in&#39;</span></div>
+
+
+<div class="viewcode-block" id="Utils.chr_str">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.chr_str">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chr_str</span><span class="p">(</span><span class="n">ord_message</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a list of ASCII values to a string, validating against symbols&quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Utils.shift_ord">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.shift_ord">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shift_ord</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shift an int within a cyclic ordered set. symbols&#39; range is inclusive. symbols defaults to printable ASCII (32-126 inclusive).&quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">symbols</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">shift</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="Utils.shift_message">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.shift_message">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shift_message</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shift all chars in a str by &#39;shift&#39; positions within the Symbol_Set&quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="n">ord_message</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
+        <span class="n">shifted_ord_message</span> <span class="o">=</span> <span class="p">[</span><span class="n">Utils</span><span class="o">.</span><span class="n">shift_ord</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">(</span><span class="n">shifted_ord_message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_init_count_dict</span><span class="p">(</span><span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a {str:int} dictionary to be used in _count_chars(). Includes all characters in &#39;symbols&#39;, which defaults to an uppercase alphabet and a space char.&quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span>
+
+<div class="viewcode-block" id="Utils.count_chars">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.count_chars">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">count_chars</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Count the occurrences in the ciphertext of all valid characters&quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">_init_count_dict</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ciphertext</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">:</span>
+                <span class="n">counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">counts</span></div>
+
+
+<div class="viewcode-block" id="Utils.default_set">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.default_set">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the default set if symbols is none, or returns symbols that are passed.</span>
+<span class="sd">        The default set is printable ASCIIs: Symbol_Set((32, 126))&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">symbols</span> <span class="ow">or</span> <span class="n">Utils</span><span class="o">.</span><span class="n">def_sym_set</span></div>
+
+    
+<div class="viewcode-block" id="Utils.columnize">
+<a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.columnize">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">columnize</span><span class="p">(</span><span class="n">enc_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Splits the encrypted message into &#39;size&#39; columns. Used in Vigenere Cipher cryptanalysis.&quot;&quot;&quot;</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">enc_message</span><span class="p">):</span>
+            <span class="n">cols</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">size</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Logan Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
