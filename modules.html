@@ -104,23 +104,59 @@
 string of characters passed as an alphabet, and a tuple of a high and low
 bound of ascii characters. All utility functions can be passed a Symbol_Set
 object, initialized as either:
-SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. Or,
+SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive.
+Or,
 SymbolSet(“ABCDEF “): includes A through F inclusive and space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.index">
 <span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Symbol_Set.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.index" title="Link to this definition"></a></dt>
 <dd><p>Return index of character in symbol set</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Single character to find index of</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Zero-based index of character in the symbol set</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If character is not in the symbol set</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCD&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">65</span><span class="p">,</span> <span class="mi">68</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Symbol_Set.symbols">
 <span class="sig-name descname"><span class="pre">symbols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Symbol_Set.symbols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Symbol_Set.symbols" title="Link to this definition"></a></dt>
 <dd><p>Return list of all characters in the symbol set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All characters in the symbol set in order</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">symbols</span><span class="p">()</span>
+<span class="go">[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">65</span><span class="p">,</span> <span class="mi">67</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">symbols</span><span class="p">()</span>
+<span class="go">[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -137,10 +173,24 @@ All methods operate using a Symbol_Set object, passed explicitly.</p>
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">chr_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ord_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.chr_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.chr_str" title="Link to this definition"></a></dt>
 <dd><p>Convert a list of ASCII values to a string, validating against symbols</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ord_message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – List of ASCII codes to convert to characters</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String composed of characters whose ASCII codes are in symbols</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">([</span><span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">],</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>
+<span class="go">&#39;ABC&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -148,10 +198,24 @@ All methods operate using a Symbol_Set object, passed explicitly.</p>
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">columnize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enc_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.columnize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.columnize" title="Link to this definition"></a></dt>
 <dd><p>Splits the encrypted message into ‘size’ columns. Used in Vigenere Cipher cryptanalysis.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enc_message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Encrypted message to split into columns</p></li>
+<li><p><strong>size</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of columns to create (key length in Vigenere analysis)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of strings, each containing characters from one column</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+<dd class="field-odd"><p>list[str]</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">columnize</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">[&#39;ACE&#39;, &#39;BDF&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -159,10 +223,24 @@ All methods operate using a Symbol_Set object, passed explicitly.</p>
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">count_chars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.count_chars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.count_chars" title="Link to this definition"></a></dt>
 <dd><p>Count the occurrences in the ciphertext of all valid characters</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – String to analyze</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining which characters to count (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary mapping characters to their counts in ciphertext</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span></p>
+<dd class="field-odd"><p>dict[str, int]</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">count_chars</span><span class="p">(</span><span class="s2">&quot;AABBC&quot;</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>
+<span class="go">{&#39;A&#39;: 2, &#39;B&#39;: 2, &#39;C&#39;: 1}</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -173,8 +251,23 @@ All methods operate using a Symbol_Set object, passed explicitly.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Utils.default_set">
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">default_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.default_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.default_set" title="Link to this definition"></a></dt>
-<dd><p>Returns the default set if symbols is none, or returns symbols that are passed.
-The default set is printable ASCIIs: Symbol_Set((32, 126))</p>
+<dd><p>Returns the default set if symbols is none, or returns symbols that are passed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set to return if not None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Input symbols if provided, otherwise default printable ASCII set</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set">Symbol_Set</a></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># Returns Symbol_Set((32, 126))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;AB&quot;</span><span class="p">))</span>  <span class="c1"># Returns Symbol_Set(&quot;AB&quot;)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -182,10 +275,24 @@ The default set is printable ASCIIs: Symbol_Set((32, 126))</p>
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ord_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.ord_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.ord_str" title="Link to this definition"></a></dt>
 <dd><p>Convert a string to a list of ASCII values, validates against symbols</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – String to convert to ASCII codes</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ASCII codes of characters in message that are in symbols</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span></p>
+<dd class="field-odd"><p>list[int]</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="s2">&quot;AB C&quot;</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC &quot;</span><span class="p">))</span>
+<span class="go">[65, 66, 32, 67]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -193,21 +300,53 @@ The default set is printable ASCIIs: Symbol_Set((32, 126))</p>
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">shift_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.shift_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.shift_message" title="Link to this definition"></a></dt>
 <dd><p>Shift all chars in a str by ‘shift’ positions within the Symbol_Set</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – String to shift</p></li>
+<li><p><strong>shift</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of positions to shift each character</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Message with each character shifted by ‘shift’ positions</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">shift_message</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>
+<span class="go">&#39;BCA&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Utils.shift_ord">
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">shift_ord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.shift_ord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.shift_ord" title="Link to this definition"></a></dt>
-<dd><p>Shift an int within a cyclic ordered set. symbols’ range is inclusive. symbols defaults to printable ASCII (32-126 inclusive).</p>
+<dd><p>Shift an int within a cyclic ordered set. symbols’ range is inclusive.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – ASCII code of character to shift</p></li>
+<li><p><strong>shift</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of positions to shift (positive or negative)</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining the cyclic character set (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ASCII code of shifted character (with wrap-around)</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">shift_ord</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>  <span class="c1"># A -&gt; C</span>
+<span class="go">67</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">shift_ord</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>  <span class="c1"># A -&gt; C (wraps around)</span>
+<span class="go">67</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -217,10 +356,28 @@ The default set is printable ASCIIs: Symbol_Set((32, 126))</p>
 <span class="sig-prename descclassname"><span class="pre">cryptology.caesar_cipher.</span></span><span class="sig-name descname"><span class="pre">caesar_cipher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encrypt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;cryptology.ciph_utils.Symbol_Set</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/caesar_cipher.html#caesar_cipher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.caesar_cipher.caesar_cipher" title="Link to this definition"></a></dt>
 <dd><p>Allows encrypting or decrypting an arbitrary message by a arbitrary shift using the caesar cipher method</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The plaintext or ciphertext message to process</p></li>
+<li><p><strong>shift</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The number of positions to shift characters (for encryption) or the known shift (for decryption)</p></li>
+<li><p><strong>encrypt</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Boolean flag indicating whether to encrypt (True) or decrypt (False) the message</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining the valid character range for the cipher. Defaults to printable ASCII (32-126)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting ciphertext (if encrypting) or plaintext (if decrypting)</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">caesar_cipher</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;Mjqqt&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">caesar_cipher</span><span class="p">(</span><span class="s2">&quot;Mjqqt&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&#39;Hello&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function" id="module-cryptology.vigenere_cipher">
@@ -228,10 +385,33 @@ The default set is printable ASCIIs: Symbol_Set((32, 126))</p>
 <span class="sig-prename descclassname"><span class="pre">cryptology.vigenere_cipher.</span></span><span class="sig-name descname"><span class="pre">vigenere_cipher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encrypt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/vigenere_cipher.html#vigenere_cipher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.vigenere_cipher.vigenere_cipher" title="Link to this definition"></a></dt>
 <dd><p>Allows encrypting or decrypting an arbitrary message by a arbitrary keyword, using the vigenere cipher method</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The plaintext (when encrypting) or ciphertext (when decrypting) to process</p></li>
+<li><p><strong>keyword</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The keyword used to determine shift values for each character position</p></li>
+<li><p><strong>encrypt</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Boolean flag indicating whether to encrypt (True) or decrypt (False) the message</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining the valid character range. If None, uses default printable ASCII (32-126)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting ciphertext (if encrypting) or plaintext (if decrypting)</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vigenere_cipher</span><span class="p">(</span><span class="s2">&quot;HELLO&quot;</span><span class="p">,</span> <span class="s2">&quot;KEY&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;RIJVS&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vigenere_cipher</span><span class="p">(</span><span class="s2">&quot;RIJVS&quot;</span><span class="p">,</span> <span class="s2">&quot;KEY&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&#39;HELLO&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The keyword is case-sensitive and uses modular arithmetic for character shifts.
+Each character in the keyword provides a shift value based on its position in the symbol set.</p>
+</div>
 </dd></dl>
 
 <dl class="py function" id="module-cryptology.cryptanalysis">
@@ -240,10 +420,27 @@ The default set is printable ASCIIs: Symbol_Set((32, 126))</p>
 <dd><p>Gets cross correlation between two similar sets, returns the cross correlation for every shift.
 Intuition: if dict2 slides past dict1, at what shift do they match the best?</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dict1</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – First frequency dictionary (e.g., observed frequencies)</p></li>
+<li><p><strong>dict2</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Second frequency dictionary (e.g., expected frequencies or another observed set)</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining the character order (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cross-correlation values for each possible shift (0 to n-1 where n is symbol set size)</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span></p>
+<dd class="field-odd"><p>list[float]</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dict1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dict2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cross_correlation</span><span class="p">(</span><span class="n">dict1</span><span class="p">,</span> <span class="n">dict2</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>
+<span class="go">[0.38, 0.31, 0.31]  # Highest value at shift 0 indicates best match at no shift</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -251,23 +448,56 @@ Intuition: if dict2 slides past dict1, at what shift do they match the best?</p>
 <span class="sig-prename descclassname"><span class="pre">cryptology.cryptanalysis.</span></span><span class="sig-name descname"><span class="pre">frequency_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/cryptanalysis.html#frequency_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.cryptanalysis.frequency_analysis" title="Link to this definition"></a></dt>
 <dd><p>Creates a dictionary for characters and their frequencies within a message.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – String to analyze for character frequencies</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining which characters to analyze (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary mapping each character to its relative frequency (0.0 to 1.0)</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span></p>
+<dd class="field-odd"><p>dict[str, float]</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frequency_analysis</span><span class="p">(</span><span class="s2">&quot;AAB&quot;</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>
+<span class="go">{&#39;A&#39;: 0.666..., &#39;B&#39;: 0.333..., &#39;C&#39;: 0.0}</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.cryptanalysis.get_caesar_shift">
 <span class="sig-prename descclassname"><span class="pre">cryptology.cryptanalysis.</span></span><span class="sig-name descname"><span class="pre">get_caesar_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enc_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/cryptanalysis.html#get_caesar_shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.cryptanalysis.get_caesar_shift" title="Link to this definition"></a></dt>
-<dd><p>Gets the likely shift used to originally encrypt a caesar cipher.
-Warning: This function will only work with the ‘upper_alphabet_with_space symbol set = Symbol_Set(“ABCEDFGHIJKLMNOPQRSTUVWXYZ “)
-Any difference in size between the symbol sets will muddle the modular arithmetic.</p>
+<dd><p>Gets the likely shift used to originally encrypt a caesar cipher.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enc_message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Encrypted ciphertext to analyze</p></li>
+<li><p><strong>expected_dist</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Dictionary of expected character frequencies for the language</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Most likely Caesar cipher shift value (0 to n-1 where n is symbol set size)</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">english_dist</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mf">0.082</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mf">0.015</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>  <span class="c1"># English letter frequencies</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_caesar_shift</span><span class="p">(</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">english_dist</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC...XYZ&quot;</span><span class="p">))</span>
+<span class="go">3  # Indicates likely shift of 3 (X=A+3, Y=B+3, Z=C+3)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function will only work with the ‘upper_alphabet_with_space symbol set = Symbol_Set(“ABCEDFGHIJKLMNOPQRSTUVWXYZ “)
+Any difference in size between the symbol sets will muddle the modular arithmetic.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -275,10 +505,32 @@ Any difference in size between the symbol sets will muddle the modular arithmeti
 <span class="sig-prename descclassname"><span class="pre">cryptology.cryptanalysis.</span></span><span class="sig-name descname"><span class="pre">get_vigenere_keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enc_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/cryptanalysis.html#get_vigenere_keyword"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.cryptanalysis.get_vigenere_keyword" title="Link to this definition"></a></dt>
 <dd><p>Gets the likely keyword used to originally encrypt a vigenere cipher.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enc_message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Encrypted ciphertext to analyze</p></li>
+<li><p><strong>size</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Assumed length of the Vigenere keyword</p></li>
+<li><p><strong>expected_dist</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span>) – Dictionary of expected character frequencies for the language</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters (defaults to printable ASCII)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Most likely Vigenere keyword based on frequency analysis</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">english_dist</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mf">0.082</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mf">0.015</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_vigenere_keyword</span><span class="p">(</span><span class="s2">&quot;CIWEM&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">english_dist</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC...XYZ&quot;</span><span class="p">))</span>
+<span class="go">&#39;AB&#39;  # Likely keyword of length 2</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function assumes the ciphertext was encrypted with a Vigenere cipher
+using a keyword of the specified length.</p>
+</div>
 </dd></dl>
 
 </section>

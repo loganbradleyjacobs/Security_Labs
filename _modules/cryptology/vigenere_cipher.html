@@ -82,7 +82,28 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">vigenere_cipher</span><span class="p">(</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">encrypt</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allows encrypting or decrypting an arbitrary message by a arbitrary keyword, using the vigenere cipher method&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allows encrypting or decrypting an arbitrary message by a arbitrary keyword, using the vigenere cipher method</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        message: The plaintext (when encrypting) or ciphertext (when decrypting) to process</span>
+<span class="sd">        keyword: The keyword used to determine shift values for each character position</span>
+<span class="sd">        encrypt: Boolean flag indicating whether to encrypt (True) or decrypt (False) the message</span>
+<span class="sd">        symbols: Symbol_Set defining the valid character range. If None, uses default printable ASCII (32-126)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The resulting ciphertext (if encrypting) or plaintext (if decrypting)</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; vigenere_cipher(&quot;HELLO&quot;, &quot;KEY&quot;, True)</span>
+<span class="sd">        &#39;RIJVS&#39;</span>
+<span class="sd">        &gt;&gt;&gt; vigenere_cipher(&quot;RIJVS&quot;, &quot;KEY&quot;, False)</span>
+<span class="sd">        &#39;HELLO&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">        The keyword is case-sensitive and uses modular arithmetic for character shifts.</span>
+<span class="sd">        Each character in the keyword provides a shift value based on its position in the symbol set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">keyword</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">message</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">message</span>
     <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>

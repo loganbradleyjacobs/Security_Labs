@@ -82,11 +82,27 @@
 <span class="sd">    string of characters passed as an alphabet, and a tuple of a high and low</span>
 <span class="sd">    bound of ascii characters. All utility functions can be passed a Symbol_Set</span>
 <span class="sd">    object, initialized as either:</span>
-<span class="sd">    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. Or,</span>
+<span class="sd">    SymbolSet((32, 126)): includes all ASCII characters from 32 to 126 inclusive. </span>
+<span class="sd">    Or,</span>
 <span class="sd">    SymbolSet(&quot;ABCDEF &quot;): includes A through F inclusive and space.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Symbol_Set with either a range tuple or explicit character string.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            symbols: Either a tuple (low, high) defining ASCII code range (inclusive),</span>
+<span class="sd">                    or a string containing explicit allowed characters</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If symbols is not a tuple or string, or if a list is provided</span>
+<span class="sd">            ValueError: If tuple range is invalid (low &gt; high)</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Symbol_Set((32, 126))  # Printable ASCII</span>
+<span class="sd">            &gt;&gt;&gt; Symbol_Set(&quot;ABCDEF &quot;)   # A-F and space</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">=</span> <span class="n">symbols</span>
@@ -115,7 +131,26 @@
 <div class="viewcode-block" id="Symbol_Set.index">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.index">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return index of character in symbol set&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return index of character in symbol set</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            c: Single character to find index of</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Zero-based index of character in the symbol set</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If character is not in the symbol set</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; s = Symbol_Set(&quot;ABCD&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; s.index(&quot;B&quot;)</span>
+<span class="sd">            1</span>
+<span class="sd">            &gt;&gt;&gt; s = Symbol_Set((65, 68))</span>
+<span class="sd">            &gt;&gt;&gt; s.index(&quot;B&quot;)</span>
+<span class="sd">            1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
             <span class="n">o</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">&lt;=</span> <span class="n">o</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span><span class="p">:</span>
@@ -131,14 +166,46 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># overrides python&#39;s [] operator</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return character at cyclic index&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return character at cyclic index (supports negative indices and wrapping)</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Integer index (can be negative, wraps modulo symbol set size)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Character at the given index (with wrap-around)</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; s = Symbol_Set(&quot;ABCD&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; s[0]</span>
+<span class="sd">            &#39;A&#39;</span>
+<span class="sd">            &gt;&gt;&gt; s[5]  # 5 % 4 = 1</span>
+<span class="sd">            &#39;B&#39;</span>
+<span class="sd">            &gt;&gt;&gt; s[-1]  # -1 % 4 = 3</span>
+<span class="sd">            &#39;D&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># overrides python&#39;s in operator</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Custom &#39;in&#39; functionality, as it changes depending on internal representation&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if character is in the symbol set</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            c: Character to check for membership</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if character is in the symbol set, False otherwise</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; s = Symbol_Set(&quot;ABCD&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; &#39;B&#39; in s</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; &#39;Z&#39; in s</span>
+<span class="sd">            False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
             <span class="n">o</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">&lt;=</span> <span class="n">o</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span>
@@ -148,7 +215,20 @@
 <div class="viewcode-block" id="Symbol_Set.symbols">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set.symbols">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of all characters in the symbol set&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return list of all characters in the symbol set</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str]: All characters in the symbol set in order</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; s = Symbol_Set(&quot;ABC&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; s.symbols()</span>
+<span class="sd">            [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; s = Symbol_Set((65, 67))</span>
+<span class="sd">            &gt;&gt;&gt; s.symbols()</span>
+<span class="sd">            [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_range</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -172,7 +252,20 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ord_str</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a string to a list of ASCII values, validates against symbols&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a string to a list of ASCII values, validates against symbols</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            message: String to convert to ASCII codes</span>
+<span class="sd">            symbols: Symbol_Set defining valid characters</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list[int]: ASCII codes of characters in message that are in symbols</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.ord_str(&quot;AB C&quot;, Symbol_Set(&quot;ABC &quot;))</span>
+<span class="sd">            [65, 66, 32, 67]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">message</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span>
@@ -183,7 +276,20 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.chr_str">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">chr_str</span><span class="p">(</span><span class="n">ord_message</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a list of ASCII values to a string, validating against symbols&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a list of ASCII values to a string, validating against symbols</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            ord_message: List of ASCII codes to convert to characters</span>
+<span class="sd">            symbols: Symbol_Set defining valid characters (defaults to printable ASCII)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: String composed of characters whose ASCII codes are in symbols</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.chr_str([65, 66, 67], Symbol_Set(&quot;ABC&quot;))</span>
+<span class="sd">            &#39;ABC&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">)</span></div>
 
@@ -192,8 +298,23 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.shift_ord">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">shift_ord</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shift an int within a cyclic ordered set. symbols&#39; range is inclusive. symbols defaults to printable ASCII (32-126 inclusive).&quot;&quot;&quot;</span>
-        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shift an int within a cyclic ordered set. symbols&#39; range is inclusive.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            d: ASCII code of character to shift</span>
+<span class="sd">            shift: Number of positions to shift (positive or negative)</span>
+<span class="sd">            symbols: Symbol_Set defining the cyclic character set (defaults to printable ASCII)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: ASCII code of shifted character (with wrap-around)</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.shift_ord(65, 2, Symbol_Set(&quot;ABC&quot;))  # A -&gt; C</span>
+<span class="sd">            67</span>
+<span class="sd">            &gt;&gt;&gt; Utils.shift_ord(65, -1, Symbol_Set(&quot;ABC&quot;))  # A -&gt; C (wraps around)</span>
+<span class="sd">            67</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">symbols</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">shift</span><span class="p">])</span></div>
 
@@ -202,7 +323,21 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.shift_message">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">shift_message</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shift all chars in a str by &#39;shift&#39; positions within the Symbol_Set&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shift all chars in a str by &#39;shift&#39; positions within the Symbol_Set</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            message: String to shift</span>
+<span class="sd">            shift: Number of positions to shift each character</span>
+<span class="sd">            symbols: Symbol_Set defining valid characters (defaults to printable ASCII)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Message with each character shifted by &#39;shift&#39; positions</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.shift_message(&quot;ABC&quot;, 1, Symbol_Set(&quot;ABC&quot;))</span>
+<span class="sd">            &#39;BCA&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="n">ord_message</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
         <span class="n">shifted_ord_message</span> <span class="o">=</span> <span class="p">[</span><span class="n">Utils</span><span class="o">.</span><span class="n">shift_ord</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span><span class="p">]</span>
@@ -211,7 +346,19 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_init_count_dict</span><span class="p">(</span><span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a {str:int} dictionary to be used in _count_chars(). Includes all characters in &#39;symbols&#39;, which defaults to an uppercase alphabet and a space char.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a {str:int} dictionary to be used in _count_chars().</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            symbols: Symbol_Set defining the characters to include (defaults to printable ASCII)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict[str, int]: Dictionary with all symbols as keys and 0 as initial values</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils._init_count_dict(Symbol_Set(&quot;AB&quot;))</span>
+<span class="sd">            {&#39;A&#39;: 0, &#39;B&#39;: 0}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="o">.</span><span class="n">symbols</span><span class="p">()}</span>
 
@@ -219,7 +366,20 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.count_chars">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">count_chars</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Count the occurrences in the ciphertext of all valid characters&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Count the occurrences in the ciphertext of all valid characters</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            ciphertext: String to analyze</span>
+<span class="sd">            symbols: Symbol_Set defining which characters to count (defaults to printable ASCII)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict[str, int]: Dictionary mapping characters to their counts in ciphertext</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.count_chars(&quot;AABBC&quot;, Symbol_Set(&quot;ABC&quot;))</span>
+<span class="sd">            {&#39;A&#39;: 2, &#39;B&#39;: 2, &#39;C&#39;: 1}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="n">counts</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">_init_count_dict</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ciphertext</span><span class="p">:</span>
@@ -232,8 +392,19 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.default_set">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the default set if symbols is none, or returns symbols that are passed.</span>
-<span class="sd">        The default set is printable ASCIIs: Symbol_Set((32, 126))&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the default set if symbols is none, or returns symbols that are passed.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            symbols: Symbol_Set to return if not None</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Symbol_Set: Input symbols if provided, otherwise default printable ASCII set</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.default_set(None)  # Returns Symbol_Set((32, 126))</span>
+<span class="sd">            &gt;&gt;&gt; Utils.default_set(Symbol_Set(&quot;AB&quot;))  # Returns Symbol_Set(&quot;AB&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">symbols</span> <span class="ow">or</span> <span class="n">Utils</span><span class="o">.</span><span class="n">def_sym_set</span></div>
 
     
@@ -241,7 +412,20 @@
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.columnize">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">columnize</span><span class="p">(</span><span class="n">enc_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Splits the encrypted message into &#39;size&#39; columns. Used in Vigenere Cipher cryptanalysis.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Splits the encrypted message into &#39;size&#39; columns. Used in Vigenere Cipher cryptanalysis.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            enc_message: Encrypted message to split into columns</span>
+<span class="sd">            size: Number of columns to create (key length in Vigenere analysis)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str]: List of strings, each containing characters from one column</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; Utils.columnize(&quot;ABCDEF&quot;, 2)</span>
+<span class="sd">            [&#39;ACE&#39;, &#39;BDF&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">enc_message</span><span class="p">):</span>
             <span class="n">cols</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">size</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>

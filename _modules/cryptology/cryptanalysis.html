@@ -81,7 +81,20 @@
 <div class="viewcode-block" id="frequency_analysis">
 <a class="viewcode-back" href="../../modules.html#cryptology.cryptanalysis.frequency_analysis">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">frequency_analysis</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a dictionary for characters and their frequencies within a message.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a dictionary for characters and their frequencies within a message.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        message: String to analyze for character frequencies</span>
+<span class="sd">        symbols: Symbol_Set defining which characters to analyze (defaults to printable ASCII)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dict[str, float]: Dictionary mapping each character to its relative frequency (0.0 to 1.0)</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; frequency_analysis(&quot;AAB&quot;, Symbol_Set(&quot;ABC&quot;))</span>
+<span class="sd">        {&#39;A&#39;: 0.666..., &#39;B&#39;: 0.333..., &#39;C&#39;: 0.0}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
     <span class="n">counts</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">count_chars</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">symbols</span><span class="p">)</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -99,6 +112,20 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets cross correlation between two similar sets, returns the cross correlation for every shift.</span>
 <span class="sd">    Intuition: if dict2 slides past dict1, at what shift do they match the best?</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        dict1: First frequency dictionary (e.g., observed frequencies)</span>
+<span class="sd">        dict2: Second frequency dictionary (e.g., expected frequencies or another observed set)</span>
+<span class="sd">        symbols: Symbol_Set defining the character order (defaults to printable ASCII)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list[float]: Cross-correlation values for each possible shift (0 to n-1 where n is symbol set size)</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; dict1 = {&#39;A&#39;: 0.5, &#39;B&#39;: 0.3, &#39;C&#39;: 0.2}</span>
+<span class="sd">        &gt;&gt;&gt; dict2 = {&#39;A&#39;: 0.2, &#39;B&#39;: 0.5, &#39;C&#39;: 0.3}</span>
+<span class="sd">        &gt;&gt;&gt; cross_correlation(dict1, dict2, Symbol_Set(&quot;ABC&quot;))</span>
+<span class="sd">        [0.38, 0.31, 0.31]  # Highest value at shift 0 indicates best match at no shift</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">size</span>
@@ -123,8 +150,23 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets the likely shift used to originally encrypt a caesar cipher.</span>
-<span class="sd">    Warning: This function will only work with the &#39;upper_alphabet_with_space symbol set = Symbol_Set(&quot;ABCEDFGHIJKLMNOPQRSTUVWXYZ &quot;)</span>
-<span class="sd">    Any difference in size between the symbol sets will muddle the modular arithmetic.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        enc_message: Encrypted ciphertext to analyze</span>
+<span class="sd">        expected_dist: Dictionary of expected character frequencies for the language</span>
+<span class="sd">        symbols: Symbol_Set defining valid characters (defaults to printable ASCII)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Most likely Caesar cipher shift value (0 to n-1 where n is symbol set size)</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; english_dist = {&#39;A&#39;: 0.082, &#39;B&#39;: 0.015, ...}  # English letter frequencies</span>
+<span class="sd">        &gt;&gt;&gt; get_caesar_shift(&quot;XYZ&quot;, english_dist, Symbol_Set(&quot;ABC...XYZ&quot;))</span>
+<span class="sd">        3  # Indicates likely shift of 3 (X=A+3, Y=B+3, Z=C+3)</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">        This function will only work with the &#39;upper_alphabet_with_space symbol set = Symbol_Set(&quot;ABCEDFGHIJKLMNOPQRSTUVWXYZ &quot;)</span>
+<span class="sd">        Any difference in size between the symbol sets will muddle the modular arithmetic.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
     <span class="n">cc</span> <span class="o">=</span> <span class="n">cross_correlation</span><span class="p">(</span>
@@ -142,8 +184,27 @@
     <span class="n">expected_dist</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the likely keyword used to originally encrypt a vigenere cipher.&quot;&quot;&quot;</span>
-    <span class="n">keyword</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the likely keyword used to originally encrypt a vigenere cipher.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        enc_message: Encrypted ciphertext to analyze</span>
+<span class="sd">        size: Assumed length of the Vigenere keyword</span>
+<span class="sd">        expected_dist: Dictionary of expected character frequencies for the language</span>
+<span class="sd">        symbols: Symbol_Set defining valid characters (defaults to printable ASCII)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Most likely Vigenere keyword based on frequency analysis</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; english_dist = {&#39;A&#39;: 0.082, &#39;B&#39;: 0.015, ...}</span>
+<span class="sd">        &gt;&gt;&gt; get_vigenere_keyword(&quot;CIWEM&quot;, 2, english_dist, Symbol_Set(&quot;ABC...XYZ&quot;))</span>
+<span class="sd">        &#39;AB&#39;  # Likely keyword of length 2</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">        The function assumes the ciphertext was encrypted with a Vigenere cipher</span>
+<span class="sd">        using a keyword of the specified length.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">keyword</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">columnize</span><span class="p">(</span><span class="n">enc_message</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
