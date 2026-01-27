@@ -44,7 +44,6 @@ def vigenere_cipher(
         result.append(symbols[message_index + shift])
     return "".join(result)
 
-
 def main():
     # 1.2
     keyword = "DeLaRiva"

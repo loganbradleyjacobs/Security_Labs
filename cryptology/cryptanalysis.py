@@ -123,6 +123,7 @@ def get_vigenere_keyword(
         The function assumes the ciphertext was encrypted with a Vigenere cipher
         using a keyword of the specified length.
     """
+    keyword = ""
     if size == 0:
         return keyword
     messages = Utils.columnize(enc_message, size)
