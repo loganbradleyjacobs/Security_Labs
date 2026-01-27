@@ -11,7 +11,7 @@ python -m cryptology
 ```
 ### Description:
 The above commands will clone the repo, change directories into the repo you just cloned locally, and run the 'cryptology' module.
-The output shown will be that from simple tests meant to demonstrate core functionality of the functions. In Section 1.1 and 1.2, I demonstrate encryption and decryption of a message using a Caesar cipher and a Vigenère cipher respectively. Section 2.1 is hand-cracked, so the result is in the assignment .docx. Section 2.2 Demonstrates frequency analysis capabilities for an arbitrary message, and section 2.3 demonstrates cross-correlation capabilities on the example sets given in the assignment .docx. Section 2.4 demonstrates cryptanalysis on Caesar ciphers, while section 2.5 demonstrates cryptanalysis on Vigenère ciphers.
+The output shown will be that from simple tests meant to demonstrate core functionality of the functions. In Section 1.1 and 1.2, I demonstrate encryption and decryption of a message using a Caesar cipher and a Vigenère cipher respectively. Section 2.1 is hand-cracked, so the result is in the assignment .docx. Section 2.2 demonstrates frequency analysis capabilities for an arbitrary message, and section 2.3 demonstrates cross-correlation capabilities on the example sets given in the assignment .docx. Section 2.4 demonstrates cryptanalysis on Caesar ciphers, while section 2.5 demonstrates cryptanalysis on Vigenère ciphers.
 
 ### Capabilities:
 - Cryptology and cryptanalysis utilities for Caesar and Vigenère ciphers.
