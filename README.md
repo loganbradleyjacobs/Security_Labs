@@ -5,7 +5,9 @@
 ## Cryptology
 Quick Use:
 ```
-
+git clone https://github.com/loganbradleyjacobs/Security_Labs
+cd Security_Labs
+python -m cryptology
 ```
 - Cryptology and cryptanalysis utilities for Caesar and Vigenère ciphers.
 - Includes:
