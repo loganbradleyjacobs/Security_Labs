@@ -51,7 +51,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.def_sym_set"><code class="docutils literal notranslate"><span class="pre">Utils.def_sym_set</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.default_symbol_set"><code class="docutils literal notranslate"><span class="pre">Utils.default_symbol_set</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str"><code class="docutils literal notranslate"><span class="pre">Utils.ord_str()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.chr_str"><code class="docutils literal notranslate"><span class="pre">Utils.chr_str()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.shift_ord"><code class="docutils literal notranslate"><span class="pre">Utils.shift_ord()</span></code></a></li>
@@ -63,14 +63,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.caesar_cipher.caesar_cipher"><code class="docutils literal notranslate"><span class="pre">caesar_cipher()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.caesar_cipher.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.vigenere_cipher.vigenere_cipher"><code class="docutils literal notranslate"><span class="pre">vigenere_cipher()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.vigenere_cipher.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.frequency_analysis"><code class="docutils literal notranslate"><span class="pre">frequency_analysis()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.cross_correlation"><code class="docutils literal notranslate"><span class="pre">cross_correlation()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.get_caesar_shift"><code class="docutils literal notranslate"><span class="pre">get_caesar_shift()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.get_vigenere_keyword"><code class="docutils literal notranslate"><span class="pre">get_vigenere_keyword()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -149,9 +146,6 @@
     <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="main">
-<a class="viewcode-back" href="../../modules.html#cryptology.vigenere_cipher.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
     <span class="c1"># 1.2</span>
     <span class="n">keyword</span> <span class="o">=</span> <span class="s2">&quot;DeLaRiva&quot;</span>
@@ -165,8 +159,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(1.2)--------------------------------&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ciphertext: </span><span class="si">{</span><span class="n">C</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decoded Message: </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decoded Message: </span><span class="si">{</span><span class="n">M</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>

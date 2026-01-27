@@ -51,7 +51,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.def_sym_set"><code class="docutils literal notranslate"><span class="pre">Utils.def_sym_set</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.default_symbol_set"><code class="docutils literal notranslate"><span class="pre">Utils.default_symbol_set</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str"><code class="docutils literal notranslate"><span class="pre">Utils.ord_str()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.chr_str"><code class="docutils literal notranslate"><span class="pre">Utils.chr_str()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../modules.html#cryptology.ciph_utils.Utils.shift_ord"><code class="docutils literal notranslate"><span class="pre">Utils.shift_ord()</span></code></a></li>
@@ -63,14 +63,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.caesar_cipher.caesar_cipher"><code class="docutils literal notranslate"><span class="pre">caesar_cipher()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.caesar_cipher.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.vigenere_cipher.vigenere_cipher"><code class="docutils literal notranslate"><span class="pre">vigenere_cipher()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.vigenere_cipher.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.frequency_analysis"><code class="docutils literal notranslate"><span class="pre">frequency_analysis()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.cross_correlation"><code class="docutils literal notranslate"><span class="pre">cross_correlation()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.get_caesar_shift"><code class="docutils literal notranslate"><span class="pre">get_caesar_shift()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.get_vigenere_keyword"><code class="docutils literal notranslate"><span class="pre">get_vigenere_keyword()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../modules.html#cryptology.cryptanalysis.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -294,7 +291,7 @@
 <span class="sd">    All methods operate using a Symbol_Set object, passed explicitly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">def_sym_set</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">126</span><span class="p">))</span>
+    <span class="n">default_symbol_set</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">126</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Utils.ord_str">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str">[docs]</a>
@@ -456,7 +453,7 @@
 <span class="sd">            &gt;&gt;&gt; Utils.default_set(None)  # Returns Symbol_Set((32, 126))</span>
 <span class="sd">            &gt;&gt;&gt; Utils.default_set(Symbol_Set(&quot;AB&quot;))  # Returns Symbol_Set(&quot;AB&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">symbols</span> <span class="ow">or</span> <span class="n">Utils</span><span class="o">.</span><span class="n">def_sym_set</span></div>
+        <span class="k">return</span> <span class="n">symbols</span> <span class="ow">or</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_symbol_set</span></div>
 
     
 <div class="viewcode-block" id="Utils.columnize">
