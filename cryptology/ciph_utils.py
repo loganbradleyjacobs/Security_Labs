@@ -172,7 +172,7 @@ class Utils:
     All methods operate using a Symbol_Set object, passed explicitly.
     """
 
-    def_sym_set = Symbol_Set((32, 126))
+    default_symbol_set = Symbol_Set((32, 126))
 
     @staticmethod
     def ord_str(message: str, symbols: Symbol_Set) -> list[int]:
@@ -314,7 +314,7 @@ class Utils:
             >>> Utils.default_set(None)  # Returns Symbol_Set((32, 126))
             >>> Utils.default_set(Symbol_Set("AB"))  # Returns Symbol_Set("AB")
         """
-        return symbols or Utils.def_sym_set
+        return symbols or Utils.default_symbol_set
     
     @staticmethod
     def columnize(enc_message: str, size: int) -> list[str]:
