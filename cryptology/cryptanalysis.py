@@ -139,11 +139,11 @@ def main():
         "ASCII_printables": Symbol_Set((32, 126)),
         "upper_alphabet": Symbol_Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
         "lower_alphabet": Symbol_Set("abcdefghijklmnopqrstuvwxyz"),
-        "upper_alphabet_with_space": Symbol_Set(" ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
-        "lower_alphabet_with_space": Symbol_Set(" abcdefghijklmnopqrstuvwxyz"),
+        "upper_alphabet_with_space": Symbol_Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ "),
+        "lower_alphabet_with_space": Symbol_Set("abcdefghijklmnopqrstuvwxyz "),
         "A_through_F": Symbol_Set("ABCDEF"),
         "alphabet_with_space": Symbol_Set(
-            " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
         ),
     }
 
@@ -252,7 +252,6 @@ def main():
                 f"keylength = {i}, tried keyword: '{likely_keyword}' -------------------------------------------"
             )
             print(f"Decrypted Message:\n{decrypted_message}")
-
 
 if __name__ == "__main__":
     main()
