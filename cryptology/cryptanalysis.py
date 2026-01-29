@@ -2,9 +2,9 @@
 # CSC-348 Computer Security
 # 1/25/26
 
-from cryptology.ciph_utils import Utils, Symbol_Set
-from cryptology.caesar_cipher import caesar_cipher
-from cryptology.vigenere_cipher import vigenere_cipher
+from .ciph_utils import Utils, Symbol_Set
+from .caesar_cipher import caesar_cipher
+from .vigenere_cipher import vigenere_cipher
 
 
 def frequency_analysis(message: str, symbols: Symbol_Set = None) -> dict[str, float]:

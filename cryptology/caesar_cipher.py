@@ -2,7 +2,7 @@
 # CSC-348 Computer Security
 # 1/24/26
 
-from cryptology.ciph_utils import Utils, Symbol_Set
+from .ciph_utils import Utils, Symbol_Set
 
 def caesar_cipher(message: str, shift: int, encrypt:bool, symbols: Symbol_Set = Symbol_Set((32, 126))) -> str:
     '''
