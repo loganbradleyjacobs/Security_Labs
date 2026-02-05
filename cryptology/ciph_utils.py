@@ -2,7 +2,6 @@
 # CSC-348 Computer Security
 # 1/24/26
 
-
 class Symbol_Set:
     """
     A class that reconciles the differences in representation between a
@@ -175,44 +174,98 @@ class Utils:
     default_symbol_set = Symbol_Set((32, 126))
 
     @staticmethod
-    def ord_str(message: str, symbols: Symbol_Set) -> list[int]:
+    def ord_str(
+        message: str,
+        symbols: Symbol_Set,
+        *,
+        start_index: int | None = None
+    ) -> list[int]:
         """
-        Convert a string to a list of ASCII values, validates against symbols
-        
+        Convert a string to a list of integers, validating against a Symbol_Set.
+
+        By default, characters are converted to their ASCII values.
+        If start_index is provided, characters are converted to their index
+        within the Symbol_Set, offset by start_index.
+
         Args:
-            message: String to convert to ASCII codes
+            message: String to convert
             symbols: Symbol_Set defining valid characters
-        
+            start_index:
+                - None (default): return ASCII values via ord(c)
+                - int k: return symbol indices starting at k
+
         Returns:
-            list[int]: ASCII codes of characters in message that are in symbols
-        
-        Example:
+            list[int]:
+                - ASCII codes if start_index is None
+                - Symbol indices (offset by start_index) otherwise
+
+        Examples:
             >>> Utils.ord_str("AB C", Symbol_Set("ABC "))
             [65, 66, 32, 67]
+
+            >>> Utils.ord_str("abc", LOWER, start_index=1)
+            [1, 2, 3]
+
+            >>> Utils.ord_str("ABC", UPPER, start_index=0)
+            [0, 1, 2]
         """
         symbols = Utils.default_set(symbols)
-        return [
-            ord(c) for c in message if c in symbols
-        ]  # terse because errors are automatically thrown by 'in'
+
+        if start_index is None:
+            return [ord(c) for c in message if c in symbols]
+
+        return [symbols.index(c) + start_index for c in message if c in symbols]
+
 
     @staticmethod
-    def chr_str(ord_message: list[int], symbols: Symbol_Set = None) -> str:
+    def chr_str(
+        ord_message: list[int],
+        symbols: Symbol_Set = None,
+        *,
+        start_index: int | None = None
+    ) -> str:
         """
-        Convert a list of ASCII values to a string, validating against symbols
-        
+        Convert a list of integers to a string, validating against a Symbol_Set.
+
+        By default, integers are interpreted as ASCII values.
+        If start_index is provided, integers are interpreted as indices into
+        the Symbol_Set, offset by start_index.
+
         Args:
-            ord_message: List of ASCII codes to convert to characters
+            ord_message: List of integers to convert
             symbols: Symbol_Set defining valid characters (defaults to printable ASCII)
-        
+            start_index:
+                - None (default): interpret values as ASCII codes
+                - int k: interpret values as symbol indices starting at k
+
         Returns:
-            str: String composed of characters whose ASCII codes are in symbols
-        
-        Example:
+            str:
+                - String composed of ASCII-decoded characters if start_index is None
+                - String composed of Symbol_Set characters otherwise
+
+        Raises:
+            ValueError: If a value is below start_index when using index mode
+
+        Examples:
             >>> Utils.chr_str([65, 66, 67], Symbol_Set("ABC"))
+            'ABC'
+
+            >>> Utils.chr_str([1, 2, 3], LOWER, start_index=1)
+            'abc'
+
+            >>> Utils.chr_str([0, 1, 2], UPPER, start_index=0)
             'ABC'
         """
         symbols = Utils.default_set(symbols)
-        return "".join(chr(d) for d in ord_message if chr(d) in symbols)
+
+        if start_index is None:
+            return "".join(chr(d) for d in ord_message if chr(d) in symbols)
+
+        if any(d < start_index for d in ord_message):
+            raise ValueError("Encoded value below start_index")
+
+        return "".join(symbols[d - start_index] for d in ord_message)
+
 
     @staticmethod
     def shift_ord(d: int, shift: int, symbols: Symbol_Set = None) -> int:
@@ -233,6 +286,7 @@ class Utils:
             >>> Utils.shift_ord(65, -1, Symbol_Set("ABC"))  # A -> C (wraps around)
             67
         """
+        symbols = Utils.default_set(symbols)
         idx = symbols.index(chr(d))
         return ord(symbols[idx + shift])
 
@@ -336,3 +390,11 @@ class Utils:
         for i, c in enumerate(enc_message):
             cols[i % size].append(c)
         return ["".join(col) for col in cols]
+
+ASCII_PRINTABLES = Symbol_Set((32, 126))
+UPPER = Symbol_Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+LOWER = Symbol_Set("abcdefghijklmnopqrstuvwxyz")
+UPPER_SPACE = Symbol_Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ ")
+LOWER_SPACE = Symbol_Set("abcdefghijklmnopqrstuvwxyz ")
+HEX = Symbol_Set("ABCDEF")
+ALPHA_SPACE = Symbol_Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ")
