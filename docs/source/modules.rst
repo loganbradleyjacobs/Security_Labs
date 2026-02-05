@@ -14,3 +14,7 @@ Cryptology Package
 
 .. automodule:: cryptology.cryptanalysis
    :members:
+
+.. automodule:: cryptology.RSA
+    :members:
+    :undoc-members:
