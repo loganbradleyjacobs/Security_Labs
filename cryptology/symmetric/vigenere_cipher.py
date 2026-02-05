@@ -2,7 +2,7 @@
 # CSC-348 Computer Security
 # 1/24/26
 
-from .ciph_utils import Symbol_Set, Utils
+from ..ciph_utils import Symbol_Set, Utils
 from .caesar_cipher import caesar_cipher
 
 

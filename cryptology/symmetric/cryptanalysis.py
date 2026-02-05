@@ -2,7 +2,7 @@
 # CSC-348 Computer Security
 # 1/25/26
 
-from .ciph_utils import Utils, Symbol_Set
+from ..ciph_utils import Utils, Symbol_Set
 from .caesar_cipher import caesar_cipher
 from .vigenere_cipher import vigenere_cipher
 
