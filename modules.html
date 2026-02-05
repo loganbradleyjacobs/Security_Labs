@@ -70,6 +70,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#cryptology.cryptanalysis.cross_correlation"><code class="docutils literal notranslate"><span class="pre">cross_correlation()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cryptology.cryptanalysis.get_caesar_shift"><code class="docutils literal notranslate"><span class="pre">get_caesar_shift()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cryptology.cryptanalysis.get_vigenere_keyword"><code class="docutils literal notranslate"><span class="pre">get_vigenere_keyword()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.find_n"><code class="docutils literal notranslate"><span class="pre">find_n()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.find_totient"><code class="docutils literal notranslate"><span class="pre">find_totient()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.find_e_any"><code class="docutils literal notranslate"><span class="pre">find_e_any()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.find_e_from_d"><code class="docutils literal notranslate"><span class="pre">find_e_from_d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.ext_gcd"><code class="docutils literal notranslate"><span class="pre">ext_gcd()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.find_d"><code class="docutils literal notranslate"><span class="pre">find_d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cryptology.RSA.encrypt"><code class="docutils literal notranslate"><span class="pre">encrypt()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -690,6 +697,116 @@ Any difference in size between the symbol sets will muddle the modular arithmeti
 <p>The function assumes the ciphertext was encrypted with a Vigenere cipher
 using a keyword of the specified length.</p>
 </div>
+</dd></dl>
+
+<dl class="py function" id="module-cryptology.RSA">
+<dt class="sig sig-object py" id="cryptology.RSA.find_n">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">find_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#find_n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.find_n" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>p</strong> (<em>int</em>)</p></li>
+<li><p><strong>q</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptology.RSA.find_totient">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">find_totient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#find_totient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.find_totient" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>p</strong> (<em>int</em>)</p></li>
+<li><p><strong>q</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptology.RSA.find_e_any">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">find_e_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#find_e_any"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.find_e_any" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>phi_n</strong> (<em>int</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptology.RSA.find_e_from_d">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">find_e_from_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#find_e_from_d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.find_e_from_d" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>phi_n</strong> (<em>int</em>)</p></li>
+<li><p><strong>d</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptology.RSA.ext_gcd">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">ext_gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#ext_gcd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.ext_gcd" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>a</strong> (<em>int</em>)</p></li>
+<li><p><strong>b</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptology.RSA.find_d">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">find_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi_n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#find_d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.find_d" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>e</strong> (<em>int</em>)</p></li>
+<li><p><strong>phi_n</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptology.RSA.encrypt">
+<span class="sig-prename descclassname"><span class="pre">cryptology.RSA.</span></span><span class="sig-name descname"><span class="pre">encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M_ord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/RSA.html#encrypt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.RSA.encrypt" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>M_ord</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>)</p></li>
+<li><p><strong>key</strong> (<em>int</em>)</p></li>
+<li><p><strong>n</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
