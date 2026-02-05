@@ -269,49 +269,92 @@ All methods operate using a Symbol_Set object, passed explicitly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Utils.ord_str">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ord_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.ord_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.ord_str" title="Link to this definition"></a></dt>
-<dd><p>Convert a string to a list of ASCII values, validates against symbols</p>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ord_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.ord_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.ord_str" title="Link to this definition"></a></dt>
+<dd><p>Convert a string to a list of integers, validating against a Symbol_Set.</p>
+<p>By default, characters are converted to their ASCII values.
+If start_index is provided, characters are converted to their index
+within the Symbol_Set, offset by start_index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – String to convert to ASCII codes</p></li>
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – String to convert</p></li>
 <li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters</p></li>
+<li><p><strong>start_index</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span>) – <ul>
+<li><p>None (default): return ASCII values via ord(c)</p></li>
+<li><p>int k: return symbol indices starting at k</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>ASCII codes of characters in message that are in symbols</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p>ASCII codes if start_index is None</p></li>
+<li><p>Symbol indices (offset by start_index) otherwise</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[int]</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="s2">&quot;AB C&quot;</span><span class="p">,</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC &quot;</span><span class="p">))</span>
 <span class="go">[65, 66, 32, 67]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">,</span> <span class="n">LOWER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">,</span> <span class="n">UPPER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">[0, 1, 2]</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptology.ciph_utils.Utils.chr_str">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">chr_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ord_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.chr_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.chr_str" title="Link to this definition"></a></dt>
-<dd><p>Convert a list of ASCII values to a string, validating against symbols</p>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">chr_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ord_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/ciph_utils.html#Utils.chr_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.ciph_utils.Utils.chr_str" title="Link to this definition"></a></dt>
+<dd><p>Convert a list of integers to a string, validating against a Symbol_Set.</p>
+<p>By default, integers are interpreted as ASCII values.
+If start_index is provided, integers are interpreted as indices into
+the Symbol_Set, offset by start_index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ord_message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – List of ASCII codes to convert to characters</p></li>
+<li><p><strong>ord_message</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – List of integers to convert</p></li>
 <li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#cryptology.ciph_utils.Symbol_Set" title="cryptology.ciph_utils.Symbol_Set"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol_Set</span></code></a></span>) – Symbol_Set defining valid characters (defaults to printable ASCII)</p></li>
+<li><p><strong>start_index</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span>) – <ul>
+<li><p>None (default): interpret values as ASCII codes</p></li>
+<li><p>int k: interpret values as symbol indices starting at k</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>String composed of characters whose ASCII codes are in symbols</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p>String composed of ASCII-decoded characters if start_index is None</p></li>
+<li><p>String composed of Symbol_Set characters otherwise</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If a value is below start_index when using index mode</p>
+</dd>
 </dl>
-<p class="rubric">Example</p>
+<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">([</span><span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">],</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">))</span>
+<span class="go">&#39;ABC&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">LOWER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;abc&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">UPPER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="go">&#39;ABC&#39;</span>
 </pre></div>
 </div>

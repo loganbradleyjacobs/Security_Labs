@@ -101,9 +101,9 @@
 <span class="c1"># CSC-348 Computer Security</span>
 <span class="c1"># 1/25/26</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">cryptology.ciph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Utils</span><span class="p">,</span> <span class="n">Symbol_Set</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cryptology.caesar_cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">caesar_cipher</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cryptology.vigenere_cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">vigenere_cipher</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.ciph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Utils</span><span class="p">,</span> <span class="n">Symbol_Set</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.caesar_cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">caesar_cipher</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.vigenere_cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">vigenere_cipher</span>
 
 
 <div class="viewcode-block" id="frequency_analysis">
@@ -250,11 +250,11 @@
         <span class="s2">&quot;ASCII_printables&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">126</span><span class="p">)),</span>
         <span class="s2">&quot;upper_alphabet&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">),</span>
         <span class="s2">&quot;lower_alphabet&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot; ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;lower_alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot; abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ &quot;</span><span class="p">),</span>
+        <span class="s2">&quot;lower_alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz &quot;</span><span class="p">),</span>
         <span class="s2">&quot;A_through_F&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">),</span>
         <span class="s2">&quot;alphabet_with_space&quot;</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">(</span>
-            <span class="s2">&quot; ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;</span>
+            <span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz &quot;</span>
         <span class="p">),</span>
     <span class="p">}</span>
 
@@ -353,7 +353,7 @@
     <span class="n">m2</span> <span class="o">=</span> <span class="s2">&quot;TEZHRAIRGMQHNJSQPTLNZJNEVMQHRXAVASLIWDNFOELOPFWGZ UHSTIRGLUMCSW GTTQCSJULNLQK OHL MHCMPWLCEHTFNUHNPHTSFFADJHTLNBYORWEFRYE PIISO K ZQR GMPTLQCSPRMOCMKESMTYLUTFRMIEOWXXFMWECCLWSQGWUASSWFGTTMYSGUL QNQGEFGTTIDSWMOAGMKEOQL U KOVN  AMZHZRGACMKHZRHSQLKLBMJAXTKLVRGFCBTLNAM SMYAHEGIEHTKNFOELNBMWFGORHWTPAY MVOSGUVUSPD&quot;</span>
     <span class="n">m3</span> <span class="o">=</span> <span class="s2">&quot;HYMUANDCHQNHOPOK ZDBFBQVZUTY QVZTYLFAHNRCFBZVA QCHVVUIP  KLZ FYHRHNHCQOHMKUKOTQXLIXYROHMUEEOVEVCVIMQPIWBCPTMM CKSQNCNIBFFZCNVPORZZ EL BMXTGAORVY CKPBFTEFXHYMUANDCHQNHOXXIHV NYFXMUPCOHQW  VETQCVLWBOENUAPVORZNIHFRZIF KKHVTFIIBBTMUTG WDWFOIVOZVUMCKMQKVSGPOJPZ NYFXMUTTYXDQHGBAPJIUSGQGQABAVXREUZ HOCCHJUDIXTHMUTSTZTFAP TQNVCGXFVKIGPFHZWH CKSQNCNIBFFZCNVXQZWGEVOXT UFKKPDKCANXPDLUMGAXTIF CMDBQXAVFCD UATBOFZCVCQTQIHDBLUJMH ELBJICNBMTH INCI OHCDGKHZNCADITQQHFQOARACOPXPJAVCMBFIHQHGQWVZUOTDPDQTEFXRHQGEBDFEBJSBLFQJOSKKTI UCQJDVACTQOGQKVNBQPAMUAFSPDAVGGXCWHNHKPOZV OTJPJQINBCCHHZCQKCCQX TBPIWHSBLFQWNHGOOHMQATAGQQH CASZACOPXHYMUATQXWQXICIOZVNENIXXMHCGXGO NEOPOWIXEBQWVHLIUHOENURQDIVHYAVYOZVDEEQXEVUMCIXTQIUUIMQ ZNVXHEHYIUOIFAUNGRFRTUNGQKEZESBCIDKNIQKPBQNYBIXAMUMKPRBIMSKCXTINIQKOENUFC TQZZCQDBZACOPXXCIAEUXHEHVLNLKQINTC ZVZM VLOV XARBOUMNEEQXEVUCQJDRVCEUXHYIN ROCJMXTBQFRQHIPDORTAOTFHYUM CKSQBMETXSRAV YF BHWEBAXWNZRGKHZINEFXXDHNHGFFQNCENAGQNLOOXREUJAPFTIHNHCQOIB FGOOWZIMBQWVH IPYBTQVLBOXISM QCOSMCNIXTNXFOKQTUHBEP TQQN KPOYQAHNVOZUJOTQPDAUTQXTD ORGXHYIN FYHRHCSBOTTMCVGAOEVFYBCFEUUTTRGJMY ULIHKZSBYBUHJRQQTTAZDBAIHQHGBRGV&quot;</span>
 
-    <span class="n">symbols</span> <span class="o">=</span> <span class="n">common_symbol_sets</span><span class="p">[</span><span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">]</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="n">common_symbol_sets</span><span class="p">[</span><span class="s2">&quot;upper_alphabet_with_space&quot;</span><span class="p">]</span> 
     <span class="k">for</span> <span class="n">mj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original Message:</span><span class="se">\n</span><span class="si">{</span><span class="n">mj</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
@@ -363,7 +363,6 @@
                 <span class="sa">f</span><span class="s2">&quot;keylength = </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, tried keyword: &#39;</span><span class="si">{</span><span class="n">likely_keyword</span><span class="si">}</span><span class="s2">&#39; -------------------------------------------&quot;</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decrypted Message:</span><span class="se">\n</span><span class="si">{</span><span class="n">decrypted_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>

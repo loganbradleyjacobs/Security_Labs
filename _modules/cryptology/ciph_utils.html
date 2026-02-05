@@ -101,7 +101,6 @@
 <span class="c1"># CSC-348 Computer Security</span>
 <span class="c1"># 1/24/26</span>
 
-
 <div class="viewcode-block" id="Symbol_Set">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Symbol_Set">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Symbol_Set</span><span class="p">:</span>
@@ -296,47 +295,101 @@
 <div class="viewcode-block" id="Utils.ord_str">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.ord_str">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">ord_str</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ord_str</span><span class="p">(</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">start_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert a string to a list of ASCII values, validates against symbols</span>
-<span class="sd">        </span>
+<span class="sd">        Convert a string to a list of integers, validating against a Symbol_Set.</span>
+
+<span class="sd">        By default, characters are converted to their ASCII values.</span>
+<span class="sd">        If start_index is provided, characters are converted to their index</span>
+<span class="sd">        within the Symbol_Set, offset by start_index.</span>
+
 <span class="sd">        Args:</span>
-<span class="sd">            message: String to convert to ASCII codes</span>
+<span class="sd">            message: String to convert</span>
 <span class="sd">            symbols: Symbol_Set defining valid characters</span>
-<span class="sd">        </span>
+<span class="sd">            start_index:</span>
+<span class="sd">                - None (default): return ASCII values via ord(c)</span>
+<span class="sd">                - int k: return symbol indices starting at k</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            list[int]: ASCII codes of characters in message that are in symbols</span>
-<span class="sd">        </span>
-<span class="sd">        Example:</span>
+<span class="sd">            list[int]:</span>
+<span class="sd">                - ASCII codes if start_index is None</span>
+<span class="sd">                - Symbol indices (offset by start_index) otherwise</span>
+
+<span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; Utils.ord_str(&quot;AB C&quot;, Symbol_Set(&quot;ABC &quot;))</span>
 <span class="sd">            [65, 66, 32, 67]</span>
+
+<span class="sd">            &gt;&gt;&gt; Utils.ord_str(&quot;abc&quot;, LOWER, start_index=1)</span>
+<span class="sd">            [1, 2, 3]</span>
+
+<span class="sd">            &gt;&gt;&gt; Utils.ord_str(&quot;ABC&quot;, UPPER, start_index=0)</span>
+<span class="sd">            [0, 1, 2]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">message</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span>
-        <span class="p">]</span>  <span class="c1"># terse because errors are automatically thrown by &#39;in&#39;</span></div>
+
+        <span class="k">if</span> <span class="n">start_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">message</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">symbols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">start_index</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">message</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">]</span></div>
+
 
 
 <div class="viewcode-block" id="Utils.chr_str">
 <a class="viewcode-back" href="../../modules.html#cryptology.ciph_utils.Utils.chr_str">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">chr_str</span><span class="p">(</span><span class="n">ord_message</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chr_str</span><span class="p">(</span>
+        <span class="n">ord_message</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">symbols</span><span class="p">:</span> <span class="n">Symbol_Set</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">start_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert a list of ASCII values to a string, validating against symbols</span>
-<span class="sd">        </span>
+<span class="sd">        Convert a list of integers to a string, validating against a Symbol_Set.</span>
+
+<span class="sd">        By default, integers are interpreted as ASCII values.</span>
+<span class="sd">        If start_index is provided, integers are interpreted as indices into</span>
+<span class="sd">        the Symbol_Set, offset by start_index.</span>
+
 <span class="sd">        Args:</span>
-<span class="sd">            ord_message: List of ASCII codes to convert to characters</span>
+<span class="sd">            ord_message: List of integers to convert</span>
 <span class="sd">            symbols: Symbol_Set defining valid characters (defaults to printable ASCII)</span>
-<span class="sd">        </span>
+<span class="sd">            start_index:</span>
+<span class="sd">                - None (default): interpret values as ASCII codes</span>
+<span class="sd">                - int k: interpret values as symbol indices starting at k</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            str: String composed of characters whose ASCII codes are in symbols</span>
-<span class="sd">        </span>
-<span class="sd">        Example:</span>
+<span class="sd">            str:</span>
+<span class="sd">                - String composed of ASCII-decoded characters if start_index is None</span>
+<span class="sd">                - String composed of Symbol_Set characters otherwise</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a value is below start_index when using index mode</span>
+
+<span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; Utils.chr_str([65, 66, 67], Symbol_Set(&quot;ABC&quot;))</span>
+<span class="sd">            &#39;ABC&#39;</span>
+
+<span class="sd">            &gt;&gt;&gt; Utils.chr_str([1, 2, 3], LOWER, start_index=1)</span>
+<span class="sd">            &#39;abc&#39;</span>
+
+<span class="sd">            &gt;&gt;&gt; Utils.chr_str([0, 1, 2], UPPER, start_index=0)</span>
 <span class="sd">            &#39;ABC&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">)</span></div>
+
+        <span class="k">if</span> <span class="n">start_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">symbols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span> <span class="o">&lt;</span> <span class="n">start_index</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Encoded value below start_index&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">symbols</span><span class="p">[</span><span class="n">d</span> <span class="o">-</span> <span class="n">start_index</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ord_message</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="Utils.shift_ord">
@@ -360,6 +413,7 @@
 <span class="sd">            &gt;&gt;&gt; Utils.shift_ord(65, -1, Symbol_Set(&quot;ABC&quot;))  # A -&gt; C (wraps around)</span>
 <span class="sd">            67</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">default_set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">symbols</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="n">shift</span><span class="p">])</span></div>
 
@@ -480,6 +534,14 @@
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]</span></div>
 </div>
 
+
+<span class="n">ASCII_PRINTABLES</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">126</span><span class="p">))</span>
+<span class="n">UPPER</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="p">)</span>
+<span class="n">LOWER</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">)</span>
+<span class="n">UPPER_SPACE</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ &quot;</span><span class="p">)</span>
+<span class="n">LOWER_SPACE</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz &quot;</span><span class="p">)</span>
+<span class="n">HEX</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">)</span>
+<span class="n">ALPHA_SPACE</span> <span class="o">=</span> <span class="n">Symbol_Set</span><span class="p">(</span><span class="s2">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz &quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>
