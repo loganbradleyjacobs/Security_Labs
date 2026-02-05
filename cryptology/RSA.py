@@ -1,5 +1,5 @@
 import math
-from ciph_utils import Utils, LOWER
+from .ciph_utils import Utils, LOWER
 
 def find_n(p: int, q: int) -> int:
     n = p * q
