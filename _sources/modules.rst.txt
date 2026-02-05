@@ -1,20 +1,25 @@
 Cryptology Package
-==============
+==================
 
 .. automodule:: cryptology.ciph_utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: cryptology.caesar_cipher
+Symmetric Key Cryptology
+--------------------------
+
+.. automodule:: cryptology.symmetric.caesar_cipher
    :members:
 
-.. automodule:: cryptology.vigenere_cipher
+.. automodule:: cryptology.symmetric.vigenere_cipher
    :members:
 
-.. automodule:: cryptology.cryptanalysis
+.. automodule:: cryptology.symmetric.cryptanalysis
    :members:
 
-.. automodule:: cryptology.RSA
-    :members:
-    :undoc-members:
+Asymmetric Key Cryptology
+--------------------------
+.. automodule:: cryptology.asymmetric.rsa
+   :members:
+   :undoc-members:
