@@ -30,6 +30,7 @@ git clone https://github.com/loganbradleyjacobs/Security_Labs
 cd Security_Labs
 python -m cryptology.asymmetric
 ```
+Source code can be found in the `cryptology/asymmetric` directory. Specific functions can also be inspected from the documentation.
 
 ### Description
 The above commands will clone the repo, change directories into the repo you just cloned locally, and run the `cryptology.asymmetric` module.
