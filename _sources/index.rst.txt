@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Security Labs Documentation
-========================
+===========================
 
 .. toctree::
    :maxdepth: 4
