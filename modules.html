@@ -713,15 +713,22 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.find_n">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">find_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#find_n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.find_n" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>p</strong> (<em>int</em>)</p></li>
-<li><p><strong>q</strong> (<em>int</em>)</p></li>
+<dd><p>Compute the RSA modulus n = p * q.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> (<em>int</em>) – Prime number.</p></li>
+<li><p><strong>q</strong> (<em>int</em>) – Prime number.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RSA modulus n.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If p or q is not a positive integer.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -729,15 +736,22 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.find_totient">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">find_totient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#find_totient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.find_totient" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>p</strong> (<em>int</em>)</p></li>
-<li><p><strong>q</strong> (<em>int</em>)</p></li>
+<dd><p>Compute Euler’s totient φ(n) for RSA, where n = p * q.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> (<em>int</em>) – Prime number.</p></li>
+<li><p><strong>q</strong> (<em>int</em>) – Prime number.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>φ(n) = (p - 1)(q - 1).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If p or q is not greater than 1.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -745,12 +759,19 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.find_e_any">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">find_e_any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#find_e_any"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.find_e_any" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+<dd><p>Find any valid public exponent e such that gcd(e, φ(n)) = 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>phi_n</strong> (<em>int</em>) – Euler’s totient φ(n).</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>phi_n</strong> (<em>int</em>)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A valid public exponent e.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no valid e exists.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -758,15 +779,26 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.find_e_from_d">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">find_e_from_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi_n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#find_e_from_d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.find_e_from_d" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+<dd><p>Compute the public exponent e given the private exponent d.</p>
+<dl class="simple">
+<dt>This solves:</dt><dd><p>e ≡ d⁻¹ (mod φ(n))</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>phi_n</strong> (<em>int</em>)</p></li>
-<li><p><strong>d</strong> (<em>int</em>)</p></li>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phi_n</strong> (<em>int</em>) – Euler’s totient φ(n).</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – Private exponent.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Corresponding public exponent e.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If d and φ(n) are not relatively prime.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -774,15 +806,23 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.ext_gcd">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">ext_gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#ext_gcd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.ext_gcd" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span></p>
+<dd><p>Extended Euclidean Algorithm.</p>
+<dl class="simple">
+<dt>Computes gcd(a, b) and integers x, y such that:</dt><dd><p>ax + by = gcd(a, b)</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>a</strong> (<em>int</em>)</p></li>
-<li><p><strong>b</strong> (<em>int</em>)</p></li>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>int</em>) – First integer.</p></li>
+<li><p><strong>b</strong> (<em>int</em>) – Second integer.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(gcd, x, y)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[int, int, int]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -790,15 +830,26 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.find_d">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">find_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi_n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#find_d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.find_d" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+<dd><p>Compute the private exponent d given public exponent e.</p>
+<dl class="simple">
+<dt>This solves:</dt><dd><p>d ≡ e⁻¹ (mod φ(n))</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>e</strong> (<em>int</em>)</p></li>
-<li><p><strong>phi_n</strong> (<em>int</em>)</p></li>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> (<em>int</em>) – Public exponent.</p></li>
+<li><p><strong>phi_n</strong> (<em>int</em>) – Euler’s totient φ(n).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Private exponent d.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If e and φ(n) are not relatively prime.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -806,16 +857,23 @@ using a keyword of the specified length.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptology.asymmetric.rsa.encrypt">
 <span class="sig-prename descclassname"><span class="pre">cryptology.asymmetric.rsa.</span></span><span class="sig-name descname"><span class="pre">encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M_ord</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptology/asymmetric/rsa.html#encrypt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptology.asymmetric.rsa.encrypt" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>M_ord</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>)</p></li>
-<li><p><strong>key</strong> (<em>int</em>)</p></li>
-<li><p><strong>n</strong> (<em>int</em>)</p></li>
+<dd><p>Encrypt a message using RSA modular exponentiation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>M_ord</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – Message encoded as integers.</p></li>
+<li><p><strong>key</strong> (<em>int</em>) – RSA exponent (e or d).</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – RSA modulus.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Encrypted message as integers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[int]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If message values are outside valid range.</p>
 </dd>
 </dl>
 </dd></dl>

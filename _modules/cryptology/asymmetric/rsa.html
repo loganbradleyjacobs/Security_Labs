@@ -110,101 +110,245 @@
            <div itemprop="articleBody">
              
   <h1>Source code for cryptology.asymmetric.rsa</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span></span><span class="c1"># Logan Jacobs</span>
+<span class="c1"># CSC-348 Computer Security</span>
+<span class="c1"># 2/5/26</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..ciph_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Utils</span><span class="p">,</span> <span class="n">LOWER</span>
+
 
 <div class="viewcode-block" id="find_n">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.find_n">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
-    <span class="k">return</span> <span class="n">n</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the RSA modulus n = p * q.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p (int): Prime number.</span>
+<span class="sd">        q (int): Prime number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: RSA modulus n.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If p or q is not a positive integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">q</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;p and q must be integers greater than 1.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span></div>
+
 
 
 <div class="viewcode-block" id="find_totient">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.find_totient">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Euler&#39;s totient φ(n) for RSA, where n = p * q.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p (int): Prime number.</span>
+<span class="sd">        q (int): Prime number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: φ(n) = (p - 1)(q - 1).</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If p or q is not greater than 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">q</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;p and q must be integers greater than 1.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="find_e_any">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.find_e_any">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_e_any</span><span class="p">(</span><span class="n">phi_n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find any valid public exponent e such that gcd(e, φ(n)) = 1.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        phi_n (int): Euler&#39;s totient φ(n).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: A valid public exponent e.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If no valid e exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">phi_n</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;phi_n must be greater than 2.&quot;</span><span class="p">)</span>
+
     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">e</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No valid e found.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No valid public exponent e found.&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="find_e_from_d">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.find_e_from_d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_e_from_d</span><span class="p">(</span><span class="n">phi_n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the public exponent e given the private exponent d.</span>
+
+<span class="sd">    This solves:</span>
+<span class="sd">        e ≡ d⁻¹ (mod φ(n))</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        phi_n (int): Euler&#39;s totient φ(n).</span>
+<span class="sd">        d (int): Private exponent.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Corresponding public exponent e.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If d and φ(n) are not relatively prime.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">phi_n</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;phi_n and d must be positive integers.&quot;</span><span class="p">)</span>
+
     <span class="n">g</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ext_gcd</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">g</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;d and phi_n are not relatively prime.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;d and phi_n are not relatively prime; inverse does not exist.&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">phi_n</span></div>
+
 
 
 <div class="viewcode-block" id="ext_gcd">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.ext_gcd">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">ext_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ext_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extended Euclidean Algorithm.</span>
+
+<span class="sd">    Computes gcd(a, b) and integers x, y such that:</span>
+<span class="sd">        ax + by = gcd(a, b)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        a (int): First integer.</span>
+<span class="sd">        b (int): Second integer.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[int, int, int]: (gcd, x, y)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+
     <span class="n">g</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">ext_gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">y1</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">//</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span>
     <span class="k">return</span> <span class="n">g</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
 
 
+
 <div class="viewcode-block" id="find_d">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.find_d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_d</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the private exponent d given public exponent e.</span>
+
+<span class="sd">    This solves:</span>
+<span class="sd">        d ≡ e⁻¹ (mod φ(n))</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        e (int): Public exponent.</span>
+<span class="sd">        phi_n (int): Euler&#39;s totient φ(n).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Private exponent d.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If e and φ(n) are not relatively prime.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">e</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">phi_n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;e and phi_n must be positive integers.&quot;</span><span class="p">)</span>
+
     <span class="n">g</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ext_gcd</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">g</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;e and phi_n are not relatively prime.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;e and phi_n are not relatively prime; inverse does not exist.&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">phi_n</span></div>
+
 
 
 <div class="viewcode-block" id="encrypt">
 <a class="viewcode-back" href="../../../modules.html#cryptology.asymmetric.rsa.encrypt">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">encrypt</span><span class="p">(</span><span class="n">M_ord</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">encrypt</span><span class="p">(</span><span class="n">M_ord</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Encrypt a message using RSA modular exponentiation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        M_ord (List[int]): Message encoded as integers.</span>
+<span class="sd">        key (int): RSA exponent (e or d).</span>
+<span class="sd">        n (int): RSA modulus.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[int]: Encrypted message as integers.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If message values are outside valid range.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;RSA key and modulus must be positive.&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">M_ord</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message value </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> is outside valid range [0, n).&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="p">[</span><span class="nb">pow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">M_ord</span><span class="p">]</span></div>
 
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2a) --------------------&quot;</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="mi">7</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="mi">11</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="n">phi_n</span> <span class="o">=</span> <span class="n">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">find_e_any</span><span class="p">(</span><span class="n">phi_n</span><span class="p">)</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">find_d</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Valid d: </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Another valid d: </span><span class="si">{</span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">phi_n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;To find more valid d values: d + (i * phi_n) = (</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> + (i * </span><span class="si">{</span><span class="n">phi_n</span><span class="si">}</span><span class="s2">))&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Demonstrates RSA key generation and encryption for assignment problems.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2a) --------------------&quot;</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="mi">11</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">phi_n</span> <span class="o">=</span> <span class="n">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">find_e_any</span><span class="p">(</span><span class="n">phi_n</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">find_d</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2b) --------------------&quot;</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="mi">13</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="mi">31</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mi">7</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="n">phi_n</span> <span class="o">=</span> <span class="n">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">find_e_from_d</span><span class="p">(</span><span class="n">phi_n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The value of e is: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Valid d: </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Another valid d: </span><span class="si">{</span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">phi_n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;General form: d + (i * phi_n) = (</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> + (i * </span><span class="si">{</span><span class="n">phi_n</span><span class="si">}</span><span class="s2">))&quot;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2c) --------------------&quot;</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="mi">5</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="mi">11</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mi">27</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="n">phi_n</span> <span class="o">=</span> <span class="n">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">find_e_from_d</span><span class="p">(</span><span class="n">phi_n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;e: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">M</span> <span class="o">=</span> <span class="s2">&quot;abc&quot;</span>
-    <span class="n">M_ord</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">LOWER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># converts &quot;abc&quot; -&gt; [1, 2, 3]</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">M_ord</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-    <span class="n">decrypted_C</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">LOWER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Encrypted Message: </span><span class="si">{</span><span class="n">decrypted_C</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">2b) --------------------&quot;</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mi">13</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="mi">31</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">phi_n</span> <span class="o">=</span> <span class="n">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">find_e_from_d</span><span class="p">(</span><span class="n">phi_n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
 
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The value of e is: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">2c) --------------------&quot;</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="mi">11</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="mi">27</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">find_n</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">phi_n</span> <span class="o">=</span> <span class="n">find_totient</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">find_e_from_d</span><span class="p">(</span><span class="n">phi_n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;e: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">M</span> <span class="o">=</span> <span class="s2">&quot;abc&quot;</span>
+        <span class="n">M_ord</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">ord_str</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">LOWER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># &quot;abc&quot; -&gt; [1, 2, 3]</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">M_ord</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">decrypted_C</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">chr_str</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">LOWER</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Encrypted Message: </span><span class="si">{</span><span class="n">decrypted_C</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ERROR] </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
